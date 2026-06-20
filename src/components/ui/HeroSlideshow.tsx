@@ -7,22 +7,22 @@ import { PawIcon } from "./PawIcon";
 
 const slides = [
   {
-    image: "/images/slide_01.png",
+    image: "/images/hero-first-meet.png",
     message: "はじめて抱っこした日を、覚えていますか",
     kenBurns: "origin-center scale-110",
   },
   {
-    image: "/images/slide_02.png",
+    image: "/images/hero-morning-walk.png",
     message: "毎朝のお散歩が、いつの間にか宝物になった",
     kenBurns: "origin-left scale-110",
   },
   {
-    image: "/images/slide_03.png",
+    image: "/images/hero-gaze.png",
     message: "あなたが笑うと、しっぽが揺れる",
     kenBurns: "origin-right scale-110",
   },
   {
-    image: "/images/slide_04.png",
+    image: "/images/hero-cozy.png",
     message: "この時間が、ずっと続きますように",
     kenBurns: "origin-center scale-105",
   },

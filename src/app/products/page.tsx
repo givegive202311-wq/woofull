@@ -116,7 +116,7 @@ export default function ProductsPage() {
                   <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer">
                     <div className="relative aspect-square overflow-hidden">
                       <Image
-                        src={product.image_url || "/images/concept_brain.png"}
+                        src={product.image_url || "/images/concept-brain.png"}
                         alt={product.name}
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-105"

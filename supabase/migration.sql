@@ -48,7 +48,7 @@ INSERT INTO products (name, slug, description, concept_tag, cost_price, sell_pri
   '脳トレ',
   600,
   3480,
-  '/images/concept_brain.png',
+  '/images/concept-brain.png',
   'in_stock'
 ),
 (
@@ -58,7 +58,7 @@ INSERT INTO products (name, slug, description, concept_tag, cost_price, sell_pri
   'コミュニケーション',
   700,
   3980,
-  '/images/concept_bond.png',
+  '/images/concept-bond.png',
   'in_stock'
 ),
 (
@@ -68,7 +68,7 @@ INSERT INTO products (name, slug, description, concept_tag, cost_price, sell_pri
   '脳トレ',
   400,
   2480,
-  '/images/concept_brain.png',
+  '/images/concept-brain.png',
   'in_stock'
 ),
 (
@@ -78,7 +78,7 @@ INSERT INTO products (name, slug, description, concept_tag, cost_price, sell_pri
   '運動',
   2200,
   7980,
-  '/images/concept_exercise.png',
+  '/images/concept-exercise.png',
   'in_stock'
 ),
 (
@@ -88,6 +88,6 @@ INSERT INTO products (name, slug, description, concept_tag, cost_price, sell_pri
   'お散歩',
   1000,
   4980,
-  '/images/concept_exercise.png',
+  '/images/concept-exercise.png',
   'in_stock'
 );

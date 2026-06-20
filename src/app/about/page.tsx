@@ -16,7 +16,7 @@ export default function AboutPage() {
       {/* ヒーロー */}
       <section className="relative h-[50vh] md:h-[60vh] overflow-hidden flex items-center justify-center">
         <Image
-          src="/images/slide_01.png"
+          src="/images/hero-first-meet.png"
           alt=""
           fill
           className="object-cover"

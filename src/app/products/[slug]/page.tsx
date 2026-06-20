@@ -40,7 +40,7 @@ export default function ProductDetailPage() {
       name: product.name,
       slug: product.slug,
       price: product.sell_price,
-      image: product.image_url || "/images/concept_brain.png",
+      image: product.image_url || "/images/concept-brain.png",
     }, quantity);
     setAddedToCart(true);
     setTimeout(() => setAddedToCart(false), 2000);
@@ -104,7 +104,7 @@ export default function ProductDetailPage() {
           >
             <div className="relative aspect-square rounded-3xl overflow-hidden shadow-lg">
               <Image
-                src={product.image_url || "/images/concept_brain.png"}
+                src={product.image_url || "/images/concept-brain.png"}
                 alt={product.name}
                 fill
                 className="object-cover"

@@ -14,7 +14,7 @@ const rankingProducts = [
     name: "にんじん畑ノーズワークマット",
     price: 3480,
     tag: "脳トレ",
-    image: "/images/concept_brain.png",
+    image: "/images/concept-brain.png",
     slug: "carrot-snuffle-mat",
   },
   {
@@ -22,7 +22,7 @@ const rankingProducts = [
     name: "録音コミュニケーションボタン",
     price: 3980,
     tag: "コミュニケーション",
-    image: "/images/concept_bond.png",
+    image: "/images/concept-bond.png",
     slug: "communication-button",
   },
   {
@@ -30,7 +30,7 @@ const rankingProducts = [
     name: "自動ボールランチャー",
     price: 7980,
     tag: "運動",
-    image: "/images/concept_exercise.png",
+    image: "/images/concept-exercise.png",
     slug: "ball-launcher",
   },
 ];
@@ -42,7 +42,7 @@ const allProducts = [
     name: "知育パズルフィーダー",
     price: 2480,
     tag: "脳トレ",
-    image: "/images/concept_brain.png",
+    image: "/images/concept-brain.png",
     slug: "puzzle-feeder",
   },
   {
@@ -50,7 +50,7 @@ const allProducts = [
     name: "ハンズフリーキャリアバッグ",
     price: 4980,
     tag: "お散歩",
-    image: "/images/concept_exercise.png",
+    image: "/images/concept-exercise.png",
     slug: "carrier-bag",
   },
 ];
@@ -60,28 +60,28 @@ const concepts = [
     icon: Brain,
     title: "脳を使う",
     description: "知育・ノーズワークで認知症を予防。考えることで脳が活性化し、シニア期の認知機能低下を防ぎます。",
-    image: "/images/concept_brain.png",
+    image: "/images/concept-brain.png",
     color: "#F6A54B",
   },
   {
     icon: Dumbbell,
     title: "体を動かす",
     description: "適度な運動で筋肉と関節を健やかに。毎日の「楽しい！」が、長く歩ける体をつくります。",
-    image: "/images/concept_exercise.png",
+    image: "/images/concept-exercise.png",
     color: "#E58B2D",
   },
   {
     icon: MessageCircle,
     title: "絆を深める",
     description: "コミュニケーションボタンで気持ちを伝え合う。「通じた！」という喜びが、信頼関係を深めます。",
-    image: "/images/concept_bond.png",
+    image: "/images/concept-bond.png",
     color: "#F6A54B",
   },
   {
     icon: Heart,
     title: "長く一緒に",
     description: "遊び・運動・脳トレ。毎日のちいさな積み重ねが、愛犬の健康寿命を伸ばします。",
-    image: "/images/concept_longevity.png",
+    image: "/images/concept-longevity.png",
     color: "#E58B2D",
   },
 ];
@@ -418,7 +418,7 @@ export default function Home() {
         >
           <div className="absolute inset-0">
             <Image
-              src="/images/slide_03.png"
+              src="/images/hero-gaze.png"
               alt=""
               fill
               className="object-cover"
