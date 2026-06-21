@@ -6,7 +6,8 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { PawIcon } from "@/components/ui/PawIcon";
 import { useCart } from "@/hooks/useCart";
-import { Menu, X, ShoppingBag } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { Menu, X, ShoppingBag, User } from "lucide-react";
 
 const navLinks = [
   { href: "/products", label: "商品一覧" },
@@ -19,6 +20,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { totalItems } = useCart();
+  const { user } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -57,7 +59,7 @@ export function Header() {
             </span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -70,7 +72,7 @@ export function Header() {
             ))}
             <Link
               href="/cart"
-              className="relative flex items-center gap-1.5 text-sm font-medium tracking-wide transition-colors duration-500 hover:opacity-70"
+              className="relative flex items-center text-sm font-medium tracking-wide transition-colors duration-500 hover:opacity-70"
               style={{ color: textColor }}
             >
               <ShoppingBag size={18} />
@@ -83,9 +85,19 @@ export function Header() {
                 </span>
               )}
             </Link>
+            <Link
+              href={user ? "/profile" : "/login"}
+              className="flex items-center transition-colors duration-500 hover:opacity-70"
+              style={{ color: textColor }}
+            >
+              <User size={18} />
+            </Link>
           </nav>
 
-          <div className="flex items-center gap-4 md:hidden">
+          <div className="flex items-center gap-3 md:hidden">
+            <Link href={user ? "/profile" : "/login"} className="p-2" style={{ color: textColor }}>
+              <User size={20} />
+            </Link>
             <Link href="/cart" className="relative p-2" style={{ color: textColor }}>
               <ShoppingBag size={20} />
               {totalItems > 0 && (
@@ -116,7 +128,11 @@ export function Header() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
         >
-          {[...navLinks, { href: "/cart", label: "カート" }].map((link) => (
+          {[
+            ...navLinks,
+            { href: "/cart", label: "カート" },
+            { href: user ? "/profile" : "/login", label: user ? "マイページ" : "ログイン" },
+          ].map((link) => (
             <Link
               key={link.href}
               href={link.href}
