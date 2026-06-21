@@ -196,6 +196,11 @@ function LoginContent() {
               </button>
             </>
           )}
+
+          {/* メールアドレス取得に関する説明 */}
+          <p className="text-[10px] leading-relaxed mt-3" style={{ color: "#2D2D2D", opacity: 0.35 }}>
+            Google・LINEでログインした場合、メールアドレスを取得します。取得したメールアドレスは、注文確認・配送状況のご連絡に使用し、それ以外の目的では使用しません。詳しくは<a href="/legal/privacy" className="underline">プライバシーポリシー</a>をご覧ください。
+          </p>
         </div>
 
         {/* 切り替え */}
