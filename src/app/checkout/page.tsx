@@ -113,11 +113,18 @@ function CheckoutForm({ shipping }: { shipping: ShippingInfo }) {
 
 export default function CheckoutPage() {
   const { items, totalPrice } = useCart();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
+  const router = useRouter();
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [shipping, setShipping] = useState<ShippingInfo>(emptyShipping);
   const [step, setStep] = useState<"shipping" | "payment">("shipping");
   const [postalLoading, setPostalLoading] = useState(false);
+
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.push("/login?redirect=checkout");
+    }
+  }, [user, authLoading, router]);
 
   useEffect(() => {
     if (user?.email) {

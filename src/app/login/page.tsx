@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { PawIcon } from "@/components/ui/PawIcon";
@@ -14,8 +14,18 @@ function isInAppBrowser() {
 }
 
 export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginContent />
+    </Suspense>
+  );
+}
+
+function LoginContent() {
   const { user, signInWithGoogle, signInWithLine, signInWithEmail, signUpWithEmail } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "profile";
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,7 +39,7 @@ export default function LoginPage() {
   }, []);
 
   if (user) {
-    router.push("/profile");
+    router.push(`/${redirectTo}`);
     return null;
   }
 
@@ -50,7 +60,7 @@ export default function LoginPage() {
       if (error) {
         setError(error);
       } else {
-        router.push("/profile");
+        router.push(`/${redirectTo}`);
       }
     }
     setLoading(false);
