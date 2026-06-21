@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 import { PawIcon } from "@/components/ui/PawIcon";
+import { isDiscountActive, getDiscountedPrice, getRemainingTime } from "@/lib/discount";
 import type { Product } from "@/types/database";
 
 const tags = ["すべて", "脳トレ", "運動", "コミュニケーション", "お散歩"];
@@ -121,6 +122,11 @@ export default function ProductsPage() {
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-105"
                       />
+                      {isDiscountActive(product) && (
+                        <div className="absolute top-3 right-3 z-10 bg-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-full">
+                          {product.discount_percent}%OFF
+                        </div>
+                      )}
                     </div>
                     <div className="p-4 md:p-5">
                       <span
@@ -135,12 +141,27 @@ export default function ProductsPage() {
                       >
                         {product.name}
                       </h3>
-                      <p className="text-lg font-extrabold font-heading" style={{ color: "#2D2D2D" }}>
-                        ¥{product.sell_price.toLocaleString()}
-                        <span className="text-xs font-normal ml-1" style={{ opacity: 0.5 }}>
-                          (税込)
-                        </span>
-                      </p>
+                      {isDiscountActive(product) ? (
+                        <div>
+                          <p className="text-xs line-through" style={{ color: "#2D2D2D", opacity: 0.4 }}>
+                            ¥{product.sell_price.toLocaleString()}
+                          </p>
+                          <p className="text-lg font-extrabold font-heading" style={{ color: "#e53e3e" }}>
+                            ¥{getDiscountedPrice(product).toLocaleString()}
+                            <span className="text-xs font-normal ml-1" style={{ opacity: 0.7 }}>(税込)</span>
+                          </p>
+                          {getRemainingTime(product) && (
+                            <p className="text-[10px] font-bold mt-1" style={{ color: "#e53e3e" }}>
+                              ⏰ {getRemainingTime(product)}
+                            </p>
+                          )}
+                        </div>
+                      ) : (
+                        <p className="text-lg font-extrabold font-heading" style={{ color: "#2D2D2D" }}>
+                          ¥{product.sell_price.toLocaleString()}
+                          <span className="text-xs font-normal ml-1" style={{ opacity: 0.5 }}>(税込)</span>
+                        </p>
+                      )}
                     </div>
                   </div>
                 </Link>

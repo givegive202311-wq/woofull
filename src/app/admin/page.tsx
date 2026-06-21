@@ -20,6 +20,9 @@ type ProductForm = {
   image_url: string;
   stock_status: string;
   is_published: boolean;
+  discount_percent: number;
+  discount_start: string;
+  discount_end: string;
 };
 
 const emptyForm: ProductForm = {
@@ -32,6 +35,9 @@ const emptyForm: ProductForm = {
   image_url: "",
   stock_status: "in_stock",
   is_published: true,
+  discount_percent: 0,
+  discount_start: "",
+  discount_end: "",
 };
 
 const conceptTags = ["脳トレ", "運動", "コミュニケーション", "お散歩", "リラックス"];
@@ -81,6 +87,9 @@ export default function AdminPage() {
       image_url: product.image_url,
       stock_status: product.stock_status,
       is_published: product.is_published,
+      discount_percent: product.discount_percent || 0,
+      discount_start: product.discount_start ? product.discount_start.slice(0, 16) : "",
+      discount_end: product.discount_end ? product.discount_end.slice(0, 16) : "",
     });
     setShowForm(true);
   }
@@ -328,6 +337,53 @@ export default function AdminPage() {
                     className="w-4 h-4 accent-[#F6A54B]"
                   />
                   <label className="text-sm" style={{ color: "#2D2D2D" }}>公開する</label>
+                </div>
+
+                {/* 期間限定割引 */}
+                <div className="pt-4 mt-4" style={{ borderTop: "1px solid rgba(45,45,45,0.06)" }}>
+                  <p className="text-xs font-bold mb-3" style={{ color: "#e53e3e" }}>期間限定割引</p>
+                  <div className="space-y-3">
+                    <div>
+                      <label className="text-xs font-bold mb-1 block" style={{ color: "#2D2D2D", opacity: 0.6 }}>割引率（%）</label>
+                      <input
+                        type="number"
+                        min={0}
+                        max={99}
+                        value={form.discount_percent}
+                        onChange={(e) => setForm({ ...form, discount_percent: parseInt(e.target.value) || 0 })}
+                        placeholder="0"
+                        className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none focus:border-[#e53e3e]"
+                        style={{ borderColor: "rgba(45,45,45,0.1)" }}
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="text-xs font-bold mb-1 block" style={{ color: "#2D2D2D", opacity: 0.6 }}>開始日時</label>
+                        <input
+                          type="datetime-local"
+                          value={form.discount_start}
+                          onChange={(e) => setForm({ ...form, discount_start: e.target.value })}
+                          className="w-full px-3 py-2.5 rounded-xl border text-sm outline-none focus:border-[#e53e3e]"
+                          style={{ borderColor: "rgba(45,45,45,0.1)" }}
+                        />
+                      </div>
+                      <div>
+                        <label className="text-xs font-bold mb-1 block" style={{ color: "#2D2D2D", opacity: 0.6 }}>終了日時</label>
+                        <input
+                          type="datetime-local"
+                          value={form.discount_end}
+                          onChange={(e) => setForm({ ...form, discount_end: e.target.value })}
+                          className="w-full px-3 py-2.5 rounded-xl border text-sm outline-none focus:border-[#e53e3e]"
+                          style={{ borderColor: "rgba(45,45,45,0.1)" }}
+                        />
+                      </div>
+                    </div>
+                    {form.discount_percent > 0 && form.sell_price > 0 && (
+                      <p className="text-xs" style={{ color: "#e53e3e" }}>
+                        割引後価格: ¥{Math.round(form.sell_price * (1 - form.discount_percent / 100)).toLocaleString()}
+                      </p>
+                    )}
+                  </div>
                 </div>
 
                 <button

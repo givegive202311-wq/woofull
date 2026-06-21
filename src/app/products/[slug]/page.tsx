@@ -9,6 +9,7 @@ import { supabase } from "@/lib/supabase";
 import { PawIcon } from "@/components/ui/PawIcon";
 import { ArrowLeft, ShoppingCart, Truck, Shield, RotateCcw } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
+import { isDiscountActive, getDiscountedPrice, getRemainingTime } from "@/lib/discount";
 import type { Product } from "@/types/database";
 
 export default function ProductDetailPage() {
@@ -39,7 +40,7 @@ export default function ProductDetailPage() {
       id: product.id,
       name: product.name,
       slug: product.slug,
-      price: product.sell_price,
+      price: getDiscountedPrice(product),
       image: product.image_url || "/images/concept-brain.png",
     }, quantity);
     setAddedToCart(true);
@@ -134,15 +135,35 @@ export default function ProductDetailPage() {
               {product.name}
             </h1>
 
-            <p
-              className="text-3xl md:text-4xl font-extrabold font-heading mb-6"
-              style={{ color: "#2D2D2D" }}
-            >
-              ¥{product.sell_price.toLocaleString()}
-              <span className="text-sm font-normal ml-2" style={{ opacity: 0.5 }}>
-                (税込)
-              </span>
-            </p>
+            {isDiscountActive(product) ? (
+              <div className="mb-6">
+                <div className="flex items-center gap-3 mb-1">
+                  <span className="bg-red-500 text-white text-sm font-bold px-3 py-1 rounded-full">
+                    {product.discount_percent}%OFF
+                  </span>
+                  {getRemainingTime(product) && (
+                    <span className="text-sm font-bold" style={{ color: "#e53e3e" }}>
+                      ⏰ {getRemainingTime(product)}
+                    </span>
+                  )}
+                </div>
+                <p className="text-base line-through" style={{ color: "#2D2D2D", opacity: 0.4 }}>
+                  ¥{product.sell_price.toLocaleString()}
+                </p>
+                <p className="text-3xl md:text-4xl font-extrabold font-heading" style={{ color: "#e53e3e" }}>
+                  ¥{getDiscountedPrice(product).toLocaleString()}
+                  <span className="text-sm font-normal ml-2" style={{ opacity: 0.7 }}>(税込)</span>
+                </p>
+              </div>
+            ) : (
+              <p
+                className="text-3xl md:text-4xl font-extrabold font-heading mb-6"
+                style={{ color: "#2D2D2D" }}
+              >
+                ¥{product.sell_price.toLocaleString()}
+                <span className="text-sm font-normal ml-2" style={{ opacity: 0.5 }}>(税込)</span>
+              </p>
+            )}
 
             <p
               className="text-base leading-relaxed mb-8"
