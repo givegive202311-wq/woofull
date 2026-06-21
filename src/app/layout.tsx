@@ -16,9 +16,27 @@ const zenKaku = Zen_Kaku_Gothic_New({
 });
 
 export const metadata: Metadata = {
-  title: "Woofull | 愛犬の毎日を、もっと豊かに。もっと長く。",
+  title: {
+    default: "Woofull | 愛犬の毎日を、もっと豊かに。もっと長く。",
+    template: "%s | Woofull",
+  },
   description:
     "犬と過ごす時間をもっと豊かに。毎日の遊び・運動・食事から、愛犬の健康寿命を伸ばすグッズを届けるECサイト。",
+  metadataBase: new URL("https://woofull.vercel.app"),
+  openGraph: {
+    type: "website",
+    locale: "ja_JP",
+    siteName: "Woofull",
+    title: "Woofull | 愛犬の毎日を、もっと豊かに。もっと長く。",
+    description: "犬と過ごす時間をもっと豊かに。愛犬の健康寿命を伸ばすグッズを届けるECサイト。",
+    images: [{ url: "/images/hero-first-meet.png", width: 1672, height: 940 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Woofull | 愛犬の毎日を、もっと豊かに。もっと長く。",
+    description: "犬と過ごす時間をもっと豊かに。愛犬の健康寿命を伸ばすグッズを届けるECサイト。",
+    images: ["/images/hero-first-meet.png"],
+  },
 };
 
 export default function RootLayout({

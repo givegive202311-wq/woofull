@@ -19,6 +19,7 @@ export default function ProductDetailPage() {
   const [loading, setLoading] = useState(true);
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
+  const [selectedImage, setSelectedImage] = useState(0);
   const [addedToCart, setAddedToCart] = useState(false);
 
   useEffect(() => {
@@ -103,15 +104,42 @@ export default function ProductDetailPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="relative aspect-square rounded-3xl overflow-hidden shadow-lg">
-              <Image
-                src={product.image_url || "/images/concept-brain.png"}
-                alt={product.name}
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
+            {(() => {
+              const allImages = [
+                product.image_url || "/images/concept-brain.png",
+                ...(product.image_urls || []),
+              ].filter(Boolean);
+              return (
+                <div>
+                  <div className="relative aspect-square rounded-3xl overflow-hidden shadow-lg mb-3">
+                    <Image
+                      src={allImages[selectedImage] || allImages[0]}
+                      alt={product.name}
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
+                  {allImages.length > 1 && (
+                    <div className="flex gap-2 overflow-x-auto">
+                      {allImages.map((img, i) => (
+                        <button
+                          key={i}
+                          onClick={() => setSelectedImage(i)}
+                          className="relative w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 transition-all"
+                          style={{
+                            border: selectedImage === i ? "2px solid #F6A54B" : "2px solid transparent",
+                            opacity: selectedImage === i ? 1 : 0.5,
+                          }}
+                        >
+                          <Image src={img} alt="" fill className="object-cover" />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
           </motion.div>
 
           {/* 商品情報エリア */}
@@ -223,9 +251,9 @@ export default function ProductDetailPage() {
             {/* 安心ポイント */}
             <div className="space-y-3 mt-8 pt-8" style={{ borderTop: "1px solid rgba(45,45,45,0.06)" }}>
               {[
-                { icon: Truck, text: "全国送料無料" },
+                { icon: Truck, text: "¥5,000以上で送料無料（未満は全国一律¥500）" },
                 { icon: Shield, text: "安心の品質保証" },
-                { icon: RotateCcw, text: "到着後7日間返品OK" },
+                { icon: RotateCcw, text: "不良品は到着後7日以内に交換対応" },
               ].map(({ icon: Icon, text }) => (
                 <div key={text} className="flex items-center gap-3">
                   <Icon size={16} color="#F6A54B" />

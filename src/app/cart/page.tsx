@@ -5,7 +5,8 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useCart } from "@/hooks/useCart";
 import { PawIcon } from "@/components/ui/PawIcon";
-import { Trash2, Minus, Plus, ArrowRight } from "lucide-react";
+import { Trash2, Minus, Plus, ArrowRight, Truck } from "lucide-react";
+import { getShippingFee, getShippingLabel, getAmountUntilFreeShipping } from "@/lib/shipping";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -128,6 +129,14 @@ export default function CartPage() {
           variants={fadeInUp}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
+          {getAmountUntilFreeShipping(totalPrice) && (
+            <div className="flex items-center gap-2 mb-4 p-3 rounded-xl" style={{ backgroundColor: "#FFF8F1" }}>
+              <Truck size={14} color="#F6A54B" />
+              <span className="text-xs" style={{ color: "#F6A54B" }}>
+                あと¥{getAmountUntilFreeShipping(totalPrice)!.toLocaleString()}で送料無料！
+              </span>
+            </div>
+          )}
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm" style={{ color: "#2D2D2D", opacity: 0.6 }}>小計</span>
             <span className="text-sm font-bold" style={{ color: "#2D2D2D" }}>
@@ -136,7 +145,9 @@ export default function CartPage() {
           </div>
           <div className="flex items-center justify-between mb-6">
             <span className="text-sm" style={{ color: "#2D2D2D", opacity: 0.6 }}>送料</span>
-            <span className="text-sm font-bold" style={{ color: "#F6A54B" }}>無料</span>
+            <span className="text-sm font-bold" style={{ color: getShippingFee(totalPrice) === 0 ? "#1D9E75" : "#2D2D2D" }}>
+              {getShippingLabel(totalPrice)}
+            </span>
           </div>
           <div
             className="flex items-center justify-between pt-4 mb-8"
@@ -144,7 +155,7 @@ export default function CartPage() {
           >
             <span className="text-base font-bold" style={{ color: "#2D2D2D" }}>合計</span>
             <span className="text-2xl font-extrabold font-heading" style={{ color: "#2D2D2D" }}>
-              ¥{totalPrice.toLocaleString()}
+              ¥{(totalPrice + getShippingFee(totalPrice)).toLocaleString()}
               <span className="text-xs font-normal ml-1" style={{ opacity: 0.5 }}>(税込)</span>
             </span>
           </div>

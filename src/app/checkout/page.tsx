@@ -8,6 +8,7 @@ import { useCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
 import { stripePromise } from "@/lib/stripe";
 import { PawIcon } from "@/components/ui/PawIcon";
+import { getShippingFee, getShippingLabel } from "@/lib/shipping";
 import { ArrowLeft, ArrowRight, Truck } from "lucide-react";
 import Link from "next/link";
 
@@ -139,7 +140,7 @@ export default function CheckoutPage() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        amount: totalPrice,
+        amount: totalPrice + getShippingFee(totalPrice),
         items: items.map((i) => ({ id: i.id, name: i.name, quantity: i.quantity })),
         shipping,
       }),
@@ -396,7 +397,7 @@ export default function CheckoutPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.5 }}
             >
-              合計: ¥{totalPrice.toLocaleString()}（税込・送料無料）
+              合計: ¥{(totalPrice + getShippingFee(totalPrice)).toLocaleString()}（税込・送料{getShippingLabel(totalPrice)}）
             </motion.p>
 
             <motion.div

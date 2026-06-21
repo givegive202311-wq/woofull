@@ -501,6 +501,9 @@ export default function Home() {
             <a href="/legal/returns" className="hover:text-[#F6A54B] transition-colors">
               返品・交換
             </a>
+            <a href="/contact" className="hover:text-[#F6A54B] transition-colors">
+              お問い合わせ
+            </a>
           </nav>
           <p className="text-xs text-white/40">
             © 2026 Woofull. All rights reserved.
