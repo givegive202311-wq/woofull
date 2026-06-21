@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { sendTelegramNotification } from "@/lib/telegram";
 
 export const dynamic = "force-dynamic";
 
@@ -17,6 +18,14 @@ export async function POST(req: NextRequest) {
     category,
     message,
   });
+
+  await sendTelegramNotification(
+    `📩 <b>お問い合わせ</b>\n\n` +
+    `👤 ${name}\n` +
+    `📧 ${email}\n` +
+    `📂 ${category}\n\n` +
+    `💬 ${message}`
+  );
 
   return NextResponse.json({ ok: true });
 }
