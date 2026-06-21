@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
@@ -104,10 +105,8 @@ export default function AdminPage() {
     setSaving(true);
 
     if (editingId) {
-      // @ts-expect-error -- admin RLS policy allows write
       await supabase.from("products").update({ ...form, updated_at: new Date().toISOString() }).eq("id", editingId);
     } else {
-      // @ts-expect-error -- admin RLS policy allows write
       await supabase.from("products").insert(form);
     }
 
@@ -137,6 +136,24 @@ export default function AdminPage() {
   return (
     <main className="flex-1 pt-24 pb-20 px-6">
       <div className="max-w-5xl mx-auto">
+        {/* 管理メニュー */}
+        <div className="flex gap-3 mb-8">
+          <Link
+            href="/admin"
+            className="px-5 py-2.5 rounded-full text-sm font-bold text-white"
+            style={{ backgroundColor: "#F6A54B" }}
+          >
+            商品管理
+          </Link>
+          <Link
+            href="/admin/orders"
+            className="px-5 py-2.5 rounded-full text-sm font-bold border transition-all hover:bg-gray-50"
+            style={{ borderColor: "rgba(45,45,45,0.1)", color: "#2D2D2D" }}
+          >
+            注文管理
+          </Link>
+        </div>
+
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-2xl font-bold font-heading" style={{ color: "#2D2D2D" }}>
             商品管理
