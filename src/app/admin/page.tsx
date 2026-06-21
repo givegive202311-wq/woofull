@@ -19,6 +19,7 @@ type ProductForm = {
   cost_price: number;
   sell_price: number;
   image_url: string;
+  supplier_url: string;
   stock_status: string;
   is_published: boolean;
   discount_percent: number;
@@ -34,6 +35,7 @@ const emptyForm: ProductForm = {
   cost_price: 0,
   sell_price: 0,
   image_url: "",
+  supplier_url: "",
   stock_status: "in_stock",
   is_published: true,
   discount_percent: 0,
@@ -86,6 +88,7 @@ export default function AdminPage() {
       cost_price: product.cost_price,
       sell_price: product.sell_price,
       image_url: product.image_url,
+      supplier_url: product.supplier_url || "",
       stock_status: product.stock_status,
       is_published: product.is_published,
       discount_percent: product.discount_percent || 0,
@@ -341,6 +344,18 @@ export default function AdminPage() {
                     value={form.image_url}
                     onChange={(e) => setForm({ ...form, image_url: e.target.value })}
                     placeholder="/images/xxx.png"
+                    className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none focus:border-[#F6A54B]"
+                    style={{ borderColor: "rgba(45,45,45,0.1)" }}
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-bold mb-1 block" style={{ color: "#2D2D2D", opacity: 0.6 }}>仕入れ元URL</label>
+                  <input
+                    type="url"
+                    value={form.supplier_url}
+                    onChange={(e) => setForm({ ...form, supplier_url: e.target.value })}
+                    placeholder="https://www.aliexpress.com/item/..."
                     className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none focus:border-[#F6A54B]"
                     style={{ borderColor: "rgba(45,45,45,0.1)" }}
                   />
