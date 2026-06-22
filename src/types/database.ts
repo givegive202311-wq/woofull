@@ -18,6 +18,7 @@ type ProductRow = {
   supplier_url: string
   stock_status: 'in_stock' | 'out_of_stock' | 'preorder'
   is_published: boolean
+  detail_content: string
   discount_percent: number
   discount_start: string | null
   discount_end: string | null

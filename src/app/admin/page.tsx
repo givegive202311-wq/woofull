@@ -20,6 +20,7 @@ type ProductForm = {
   sell_price: number;
   image_url: string;
   supplier_url: string;
+  detail_content: string;
   stock_status: string;
   is_published: boolean;
   discount_percent: number;
@@ -36,6 +37,7 @@ const emptyForm: ProductForm = {
   sell_price: 0,
   image_url: "",
   supplier_url: "",
+  detail_content: "",
   stock_status: "in_stock",
   is_published: true,
   discount_percent: 0,
@@ -89,6 +91,7 @@ export default function AdminPage() {
       sell_price: product.sell_price,
       image_url: product.image_url,
       supplier_url: product.supplier_url || "",
+      detail_content: product.detail_content || "",
       stock_status: product.stock_status,
       is_published: product.is_published,
       discount_percent: product.discount_percent || 0,
@@ -359,6 +362,23 @@ export default function AdminPage() {
                     className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none focus:border-[#F6A54B]"
                     style={{ borderColor: "rgba(45,45,45,0.1)" }}
                   />
+                </div>
+
+                <div>
+                  <label className="text-xs font-bold mb-1 block" style={{ color: "#2D2D2D", opacity: 0.6 }}>
+                    商品詳細コンテンツ（マークダウン）
+                  </label>
+                  <textarea
+                    value={form.detail_content}
+                    onChange={(e) => setForm({ ...form, detail_content: e.target.value })}
+                    rows={10}
+                    placeholder={"## 商品の特徴\n\n- ポイント1\n- ポイント2\n\n## 使い方\n\n1. ステップ1\n2. ステップ2"}
+                    className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none focus:border-[#F6A54B] resize-y font-mono"
+                    style={{ borderColor: "rgba(45,45,45,0.1)" }}
+                  />
+                  <p className="text-[10px] mt-1" style={{ color: "#2D2D2D", opacity: 0.35 }}>
+                    ## 見出し、- リスト、**太字**、&gt; 引用 が使えます
+                  </p>
                 </div>
 
                 <div className="flex items-center gap-3">
