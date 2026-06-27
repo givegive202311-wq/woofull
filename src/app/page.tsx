@@ -61,10 +61,22 @@ function ProductCard({ product, rank }: { product: Product; rank?: number }) {
           <h3 className="text-xs font-bold font-heading mb-1.5 line-clamp-2" style={{ color: "#2D2D2D" }}>
             {product.name}
           </h3>
-          <p className="text-sm font-extrabold font-heading" style={{ color: discounted ? "#e53e3e" : "#2D2D2D" }}>
-            ¥{price.toLocaleString()}
-            <span className="text-[10px] font-normal ml-0.5" style={{ opacity: 0.4 }}>(税込)</span>
-          </p>
+          {discounted && (
+            <p className="text-[10px] line-through mb-0.5" style={{ color: "#2D2D2D", opacity: 0.35 }}>
+              ¥{product.sell_price.toLocaleString()}
+            </p>
+          )}
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <p className="text-sm font-extrabold font-heading" style={{ color: discounted ? "#e53e3e" : "#2D2D2D" }}>
+              ¥{price.toLocaleString()}
+            </p>
+            {discounted && (
+              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ backgroundColor: "#e53e3e" }}>
+                {product.discount_percent}%OFF
+              </span>
+            )}
+          </div>
+          <p className="text-[10px] mt-0.5" style={{ color: "#2D2D2D", opacity: 0.35 }}>(税込)</p>
         </div>
       </motion.div>
     </Link>
@@ -331,14 +343,19 @@ export default function Home() {
                     <h3 className="text-xs md:text-sm font-bold font-heading mb-2 line-clamp-2" style={{ color: "#2D2D2D" }}>
                       {product.name}
                     </h3>
-                    <div className="flex items-baseline gap-1.5">
+                    {isDiscountActive(product) && (
+                      <p className="text-xs line-through mb-0.5" style={{ color: "#2D2D2D", opacity: 0.35 }}>
+                        ¥{product.sell_price.toLocaleString()}
+                      </p>
+                    )}
+                    <div className="flex items-center gap-1.5 flex-wrap">
                       <p className="text-base md:text-lg font-extrabold font-heading" style={{ color: isDiscountActive(product) ? "#e53e3e" : "#2D2D2D" }}>
                         ¥{getDiscountedPrice(product).toLocaleString()}
                       </p>
                       {isDiscountActive(product) && (
-                        <p className="text-xs line-through" style={{ color: "#2D2D2D", opacity: 0.35 }}>
-                          ¥{product.sell_price.toLocaleString()}
-                        </p>
+                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ backgroundColor: "#e53e3e" }}>
+                          {product.discount_percent}%OFF
+                        </span>
                       )}
                     </div>
                     <p className="text-[10px] mt-0.5" style={{ color: "#2D2D2D", opacity: 0.35 }}>(税込)</p>
