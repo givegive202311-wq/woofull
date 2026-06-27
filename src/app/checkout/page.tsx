@@ -132,7 +132,7 @@ export default function CheckoutPage() {
   }, [user]);
 
   useEffect(() => {
-    if (items.length === 0 || step !== "payment") return;
+    if (items.length === 0 || step !== "payment" || clientSecret) return;
 
     fetch("/api/create-payment-intent", {
       method: "POST",
