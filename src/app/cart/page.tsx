@@ -53,7 +53,7 @@ export default function CartPage() {
 
   if (items.length === 0) {
     return (
-      <main className="flex-1 pt-24 pb-20 flex flex-col items-center justify-center gap-6 px-6">
+      <main className="flex-1 pt-28 pb-20 flex flex-col items-center justify-center gap-6 px-6">
         <PawIcon size={48} color="#F6A54B" className="opacity-30" />
         <p className="text-lg font-heading font-bold" style={{ color: "#2D2D2D", opacity: 0.5 }}>カートに商品がありません</p>
         <Link href="/products" className="inline-block font-medium px-6 py-3 rounded-full text-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 text-white" style={{ backgroundColor: "#F6A54B" }}>
@@ -64,7 +64,7 @@ export default function CartPage() {
   }
 
   return (
-    <main className="flex-1 pt-24 pb-20 px-6">
+    <main className="flex-1 pt-28 pb-20 px-6">
       <div className="max-w-3xl mx-auto">
         <motion.h1 className="text-3xl font-bold font-heading mb-10" style={{ color: "#2D2D2D" }} initial="hidden" animate="visible" variants={fadeInUp} transition={{ duration: 0.5 }}>
           カート

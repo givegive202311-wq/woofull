@@ -189,7 +189,7 @@ export default function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <main className="flex-1 pt-24 pb-20 flex flex-col items-center justify-center gap-6 px-6">
+      <main className="flex-1 pt-28 pb-20 flex flex-col items-center justify-center gap-6 px-6">
         <PawIcon size={48} color="#F6A54B" className="opacity-30" />
         <p className="text-lg font-heading font-bold" style={{ color: "#2D2D2D", opacity: 0.5 }}>
           カートが空です
@@ -206,7 +206,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="flex-1 pt-24 pb-20 px-6">
+    <main className="flex-1 pt-28 pb-20 px-6">
       <div className="max-w-lg mx-auto">
         <Link
           href="/cart"

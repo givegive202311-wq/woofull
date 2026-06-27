@@ -74,7 +74,7 @@ export default function ProductDetailPage() {
 
   if (loading) {
     return (
-      <main className="flex-1 pt-24 flex items-center justify-center">
+      <main className="flex-1 pt-28 flex items-center justify-center">
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
@@ -87,7 +87,7 @@ export default function ProductDetailPage() {
 
   if (!product) {
     return (
-      <main className="flex-1 pt-24 flex flex-col items-center justify-center gap-4">
+      <main className="flex-1 pt-28 flex flex-col items-center justify-center gap-4">
         <p style={{ color: "#2D2D2D", opacity: 0.5 }}>商品が見つかりませんでした</p>
         <Link
           href="/products"
@@ -101,7 +101,7 @@ export default function ProductDetailPage() {
   }
 
   return (
-    <main className="flex-1 pt-24 pb-20 px-6">
+    <main className="flex-1 pt-28 pb-20 px-6">
       <div className="max-w-5xl mx-auto">
         {/* パンくずリスト */}
         <motion.div

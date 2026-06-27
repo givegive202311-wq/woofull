@@ -205,7 +205,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
   if (authLoading || loading) {
     return (
-      <main className="flex-1 pt-24 flex items-center justify-center">
+      <main className="flex-1 pt-28 flex items-center justify-center">
         <motion.div animate={{ rotate: 360 }} transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}>
           <PawIcon size={32} color="#F6A54B" className="opacity-40" />
         </motion.div>
@@ -224,7 +224,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   ] as const;
 
   return (
-    <main className="flex-1 pt-24 pb-20 px-6">
+    <main className="flex-1 pt-28 pb-20 px-6">
       <div className="max-w-3xl mx-auto">
         {/* ヘッダー */}
         <div className="flex items-center justify-between mb-8">

@@ -45,7 +45,7 @@ export default function ProductsPage() {
     );
 
   return (
-    <main className="flex-1 pt-24 pb-20 px-6">
+    <main className="flex-1 pt-20 md:pt-28 pb-20 px-6">
       <div className="max-w-6xl mx-auto">
         {/* ヘッダー */}
         <div className="text-center mb-12">
@@ -130,7 +130,7 @@ export default function ProductsPage() {
             該当する商品がありません
           </p>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-5 md:gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
             {filtered.map((product, i) => (
               <motion.div
                 key={product.id}
@@ -154,38 +154,42 @@ export default function ProductsPage() {
                         </div>
                       )}
                     </div>
-                    <div className="p-4 md:p-5">
+                    <div className="p-3 md:p-3.5">
                       <span
-                        className="inline-block text-xs font-bold px-2.5 py-1 rounded-full mb-2"
+                        className="inline-block text-[10px] font-bold px-2 py-0.5 rounded-full mb-1.5"
                         style={{ backgroundColor: "#F6A54B15", color: "#F6A54B" }}
                       >
                         {product.concept_tag}
                       </span>
                       <h3
-                        className="text-sm md:text-base font-bold font-heading mb-2 line-clamp-2"
+                        className="text-xs md:text-sm font-bold font-heading mb-1.5 line-clamp-2"
                         style={{ color: "#2D2D2D" }}
                       >
                         {product.name}
                       </h3>
                       {isDiscountActive(product) ? (
                         <div>
-                          <p className="text-xs line-through" style={{ color: "#2D2D2D", opacity: 0.4 }}>
+                          <p className="text-[10px] line-through" style={{ color: "#2D2D2D", opacity: 0.4 }}>
                             ¥{product.sell_price.toLocaleString()}
                           </p>
-                          <p className="text-lg font-extrabold font-heading" style={{ color: "#e53e3e" }}>
-                            ¥{getDiscountedPrice(product).toLocaleString()}
-                            <span className="text-xs font-normal ml-1" style={{ opacity: 0.7 }}>(税込)</span>
-                          </p>
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <p className="text-sm md:text-base font-extrabold font-heading" style={{ color: "#e53e3e" }}>
+                              ¥{getDiscountedPrice(product).toLocaleString()}
+                            </p>
+                            <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ backgroundColor: "#e53e3e" }}>
+                              {product.discount_percent}%OFF
+                            </span>
+                          </div>
                           {getRemainingTime(product) && (
-                            <p className="text-[10px] font-bold mt-1" style={{ color: "#e53e3e" }}>
+                            <p className="text-[10px] font-bold mt-0.5" style={{ color: "#e53e3e" }}>
                               ⏰ {getRemainingTime(product)}
                             </p>
                           )}
                         </div>
                       ) : (
-                        <p className="text-lg font-extrabold font-heading" style={{ color: "#2D2D2D" }}>
+                        <p className="text-sm md:text-base font-extrabold font-heading" style={{ color: "#2D2D2D" }}>
                           ¥{product.sell_price.toLocaleString()}
-                          <span className="text-xs font-normal ml-1" style={{ opacity: 0.5 }}>(税込)</span>
+                          <span className="text-[10px] font-normal ml-1" style={{ opacity: 0.5 }}>(税込)</span>
                         </p>
                       )}
                     </div>
