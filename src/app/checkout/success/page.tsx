@@ -1,11 +1,29 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { PawIcon } from "@/components/ui/PawIcon";
 import { CheckCircle } from "lucide-react";
 
-export default function CheckoutSuccessPage() {
+function SuccessContent() {
+  const searchParams = useSearchParams();
+  const paymentIntentId = searchParams.get("payment_intent");
+  const called = useRef(false);
+
+  useEffect(() => {
+    if (!paymentIntentId || called.current) return;
+    called.current = true;
+
+    fetch("/api/confirm-order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ paymentIntentId }),
+    });
+  }, [paymentIntentId]);
+
   return (
     <main className="flex-1 pt-24 pb-20 flex items-center justify-center px-6">
       <motion.div
@@ -56,5 +74,13 @@ export default function CheckoutSuccessPage() {
         </div>
       </motion.div>
     </main>
+  );
+}
+
+export default function CheckoutSuccessPage() {
+  return (
+    <Suspense>
+      <SuccessContent />
+    </Suspense>
   );
 }
