@@ -393,7 +393,7 @@ export default function CheckoutPage() {
                 {shipping.name}　〒{shipping.postalCode}
               </p>
               <p className="text-sm" style={{ color: "#2D2D2D", opacity: 0.6 }}>
-                {shipping.prefecture}{shipping.city}{shipping.address}
+                {shipping.prefecture}{shipping.city}
                 {shipping.building && ` ${shipping.building}`}
               </p>
             </motion.div>
