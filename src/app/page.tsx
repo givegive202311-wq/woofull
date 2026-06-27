@@ -1,151 +1,66 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { PawIcon } from "@/components/ui/PawIcon";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 import { HeroSlideshow } from "@/components/ui/HeroSlideshow";
-import { Heart, Brain, Dumbbell, MessageCircle, Crown, ArrowRight } from "lucide-react";
-
-const rankingProducts = [
-  {
-    id: 1,
-    name: "にんじん畑ノーズワークマット",
-    price: 3480,
-    tag: "脳トレ",
-    image: "/images/concept-brain.png",
-    slug: "carrot-snuffle-mat",
-  },
-  {
-    id: 2,
-    name: "録音コミュニケーションボタン",
-    price: 3980,
-    tag: "コミュニケーション",
-    image: "/images/concept-bond.png",
-    slug: "communication-button",
-  },
-  {
-    id: 3,
-    name: "自動ボールランチャー",
-    price: 7980,
-    tag: "運動",
-    image: "/images/concept-exercise.png",
-    slug: "ball-launcher",
-  },
-];
-
-const allProducts = [
-  ...rankingProducts,
-  {
-    id: 4,
-    name: "知育パズルフィーダー",
-    price: 2480,
-    tag: "脳トレ",
-    image: "/images/concept-brain.png",
-    slug: "puzzle-feeder",
-  },
-  {
-    id: 5,
-    name: "ハンズフリーキャリアバッグ",
-    price: 4980,
-    tag: "お散歩",
-    image: "/images/concept-exercise.png",
-    slug: "carrier-bag",
-  },
-];
-
-const concepts = [
-  {
-    icon: Brain,
-    title: "脳を使う",
-    description: "知育・ノーズワークで認知症を予防。考えることで脳が活性化し、シニア期の認知機能低下を防ぎます。",
-    image: "/images/concept-brain.png",
-    color: "#F6A54B",
-  },
-  {
-    icon: Dumbbell,
-    title: "体を動かす",
-    description: "適度な運動で筋肉と関節を健やかに。毎日の「楽しい！」が、長く歩ける体をつくります。",
-    image: "/images/concept-exercise.png",
-    color: "#E58B2D",
-  },
-  {
-    icon: MessageCircle,
-    title: "絆を深める",
-    description: "コミュニケーションボタンで気持ちを伝え合う。「通じた！」という喜びが、信頼関係を深めます。",
-    image: "/images/concept-bond.png",
-    color: "#F6A54B",
-  },
-  {
-    icon: Heart,
-    title: "長く一緒に",
-    description: "遊び・運動・脳トレ。毎日のちいさな積み重ねが、愛犬の健康寿命を伸ばします。",
-    image: "/images/concept-longevity.png",
-    color: "#E58B2D",
-  },
-];
+import { ArrowRight } from "lucide-react";
+import { supabase } from "@/lib/supabase";
+import { isDiscountActive, getDiscountedPrice } from "@/lib/discount";
+import type { Product } from "@/types/database";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0 },
 };
 
-function ProductCard({
-  product,
-  rank,
-}: {
-  product: (typeof allProducts)[0];
-  rank?: number;
-}) {
+function ProductCard({ product, index }: { product: Product; index: number }) {
+  const discounted = isDiscountActive(product);
+  const price = getDiscountedPrice(product);
+
   return (
     <Link href={`/products/${product.slug}`}>
       <motion.div
-        className="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer"
-        whileHover={{ y: -6 }}
+        className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer"
+        whileHover={{ y: -4 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: index * 0.05 }}
       >
-        {/* ランキングバッジ */}
-        {rank && (
-          <div
-            className="absolute top-3 left-3 z-10 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold text-white"
-            style={{
-              backgroundColor: rank === 1 ? "#F6A54B" : rank === 2 ? "#A0A0A0" : "#C07A3E",
-            }}
-          >
-            {rank}
-          </div>
-        )}
-
-        {/* 商品画像 */}
         <div className="relative aspect-square overflow-hidden">
           <Image
-            src={product.image}
+            src={product.image_url || "/images/concept-brain.png"}
             alt={product.name}
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
+          {discounted && (
+            <div className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+              {product.discount_percent}%OFF
+            </div>
+          )}
         </div>
-
-        {/* 商品情報 */}
-        <div className="p-4 md:p-5">
-          <span
-            className="inline-block text-xs font-bold px-2.5 py-1 rounded-full mb-2"
-            style={{ backgroundColor: "#F6A54B15", color: "#F6A54B" }}
-          >
-            {product.tag}
+        <div className="p-3 md:p-4">
+          <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded-full mb-1.5" style={{ backgroundColor: "#F6A54B15", color: "#F6A54B" }}>
+            {product.concept_tag}
           </span>
-          <h3
-            className="text-sm md:text-base font-bold font-heading mb-2 line-clamp-2"
-            style={{ color: "#2D2D2D" }}
-          >
+          <h3 className="text-xs md:text-sm font-bold font-heading mb-2 line-clamp-2" style={{ color: "#2D2D2D" }}>
             {product.name}
           </h3>
-          <p className="text-lg font-extrabold font-heading" style={{ color: "#2D2D2D" }}>
-            ¥{product.price.toLocaleString()}
-            <span className="text-xs font-normal ml-1" style={{ opacity: 0.5 }}>
-              (税込)
-            </span>
-          </p>
+          <div className="flex items-baseline gap-1.5">
+            <p className="text-base md:text-lg font-extrabold font-heading" style={{ color: discounted ? "#e53e3e" : "#2D2D2D" }}>
+              ¥{price.toLocaleString()}
+            </p>
+            {discounted && (
+              <p className="text-xs line-through" style={{ color: "#2D2D2D", opacity: 0.35 }}>
+                ¥{product.sell_price.toLocaleString()}
+              </p>
+            )}
+          </div>
+          <p className="text-[10px] mt-0.5" style={{ color: "#2D2D2D", opacity: 0.35 }}>(税込)</p>
         </div>
       </motion.div>
     </Link>
@@ -153,167 +68,41 @@ function ProductCard({
 }
 
 export default function Home() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    supabase
+      .from("products")
+      .select("*")
+      .eq("is_published", true)
+      .order("created_at", { ascending: false })
+      .then(({ data }) => {
+        setProducts(data || []);
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <main className="flex-1">
       {/* ストーリー型ヒーロースライドショー */}
       <HeroSlideshow />
 
-      {/* ブランドメッセージセクション */}
-      <section className="py-24 px-6" style={{ backgroundColor: "#FFF8F1" }}>
-        <div className="max-w-3xl mx-auto text-center">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            transition={{ duration: 0.6 }}
-          >
-            <PawIcon size={32} color="#F6A54B" className="mx-auto mb-8 opacity-60" />
-          </motion.div>
-
-          <motion.h2
-            className="text-2xl md:text-3xl font-bold font-heading leading-relaxed mb-8"
-            style={{ color: "#2D2D2D" }}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            自分で選べないから、
-            <br />
-            私たちが選ぶ。
-          </motion.h2>
-
-          <motion.div
-            className="text-base md:text-lg leading-loose"
-            style={{ color: "#2D2D2D", opacity: 0.7 }}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <p>犬は自分でおもちゃを選べない。</p>
-            <p>散歩の道具も、遊び方も。</p>
-            <p className="mt-4">
-              だからこそ、飼い主が「本当にいいもの」を知ることが大切。
-            </p>
-            <p className="mt-4 font-medium" style={{ color: "#F6A54B" }}>
-              Woofullは、愛犬の健康寿命を伸ばすために
+      {/* ブランドメッセージ */}
+      <section className="py-16 px-6" style={{ backgroundColor: "#FFF8F1" }}>
+        <div className="max-w-2xl mx-auto text-center">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} transition={{ duration: 0.5 }}>
+            <PawIcon size={28} color="#F6A54B" className="mx-auto mb-5 opacity-60" />
+            <h2 className="text-xl md:text-2xl font-bold font-heading mb-4 leading-relaxed" style={{ color: "#2D2D2D" }}>
+              自分で選べないから、私たちが選ぶ。
+            </h2>
+            <p className="text-sm md:text-base leading-loose" style={{ color: "#2D2D2D", opacity: 0.65 }}>
+              犬は自分でおもちゃを選べない。だからこそ、飼い主が「本当にいいもの」を知ることが大切。
               <br />
-              本当に意味のあるグッズだけを届けます。
+              <span className="font-medium" style={{ color: "#F6A54B" }}>Woofullは、愛犬の健康寿命を伸ばすグッズだけを届けます。</span>
             </p>
-          </motion.div>
-        </div>
-      </section>
-
-      <SectionDivider />
-
-      {/* 人気ランキング */}
-      <section className="py-20 px-6 max-w-6xl mx-auto">
-        <motion.div
-          className="flex items-center justify-center gap-3 mb-4"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-          transition={{ duration: 0.5 }}
-        >
-          <Crown size={24} color="#F6A54B" />
-          <h2
-            className="text-3xl md:text-4xl font-bold font-heading text-center"
-            style={{ color: "#2D2D2D" }}
-          >
-            人気ランキング
-          </h2>
-        </motion.div>
-        <motion.p
-          className="text-center mb-12"
-          style={{ color: "#2D2D2D", opacity: 0.5 }}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        >
-          今、いちばん選ばれているグッズ
-        </motion.p>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-          {rankingProducts.map((product, i) => (
-            <motion.div
-              key={product.id}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-            >
-              <ProductCard product={product} rank={i + 1} />
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      <SectionDivider />
-
-      {/* 商品一覧プレビュー */}
-      <section className="py-20 px-6" style={{ backgroundColor: "#FFF8F1" }}>
-        <div className="max-w-6xl mx-auto">
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold font-heading text-center mb-4"
-            style={{ color: "#2D2D2D" }}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            transition={{ duration: 0.5 }}
-          >
-            商品一覧
-          </motion.h2>
-          <motion.p
-            className="text-center mb-12"
-            style={{ color: "#2D2D2D", opacity: 0.5 }}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            愛犬の健康寿命を伸ばすグッズ
-          </motion.p>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
-            {allProducts.map((product, i) => (
-              <motion.div
-                key={product.id}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeInUp}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-              >
-                <ProductCard product={product} />
-              </motion.div>
-            ))}
-          </div>
-
-          <motion.div
-            className="text-center mt-12"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <Link
-              href="/products"
-              className="inline-flex items-center gap-2 font-medium text-base tracking-wide transition-all duration-300 hover:gap-3 border-b-2 pb-1"
-              style={{ color: "#2D2D2D", borderColor: "#F6A54B" }}
-            >
-              すべての商品を見る
-              <ArrowRight size={16} />
+            <Link href="/concept" className="inline-flex items-center gap-1 mt-4 text-sm font-medium hover:gap-2 transition-all" style={{ color: "#F6A54B" }}>
+              Woofullのコンセプトを見る <ArrowRight size={13} />
             </Link>
           </motion.div>
         </div>
@@ -321,93 +110,59 @@ export default function Home() {
 
       <SectionDivider />
 
-      {/* コンセプトセクション（写真付き） */}
-      <section className="py-20 px-6 max-w-6xl mx-auto">
-        <motion.h2
-          className="text-3xl md:text-4xl font-bold font-heading text-center mb-4"
-          style={{ color: "#2D2D2D" }}
+      {/* 商品一覧 */}
+      <section className="py-16 px-6 max-w-6xl mx-auto">
+        <motion.div
+          className="flex items-center justify-between mb-8"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeInUp}
           transition={{ duration: 0.5 }}
         >
-          4つのコンセプト
-        </motion.h2>
-        <motion.p
-          className="text-center mb-16 max-w-lg mx-auto"
-          style={{ color: "#2D2D2D", opacity: 0.6 }}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        >
-          犬と過ごす時間をもっと豊かに。
-          <br />
-          毎日の遊び・運動・食事から、愛犬の健康寿命を伸ばすグッズを届けます。
-        </motion.p>
+          <h2 className="text-2xl md:text-3xl font-bold font-heading" style={{ color: "#2D2D2D" }}>
+            商品一覧
+          </h2>
+          <Link
+            href="/products"
+            className="inline-flex items-center gap-1.5 text-sm font-medium hover:gap-2.5 transition-all duration-300"
+            style={{ color: "#F6A54B" }}
+          >
+            すべて見る <ArrowRight size={14} />
+          </Link>
+        </motion.div>
 
-        <div className="space-y-16">
-          {concepts.map((concept, i) => {
-            const isEven = i % 2 === 0;
-            return (
-              <motion.div
-                key={concept.title}
-                className={`flex flex-col ${isEven ? "md:flex-row" : "md:flex-row-reverse"} items-center gap-8 md:gap-12`}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeInUp}
-                transition={{ duration: 0.6, delay: 0.1 }}
-              >
-                <div className="w-full md:w-1/2 relative">
-                  <div className="relative aspect-square rounded-3xl overflow-hidden shadow-lg group">
-                    <Image
-                      src={concept.image}
-                      alt={concept.title}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className={`absolute ${isEven ? "-bottom-4 -right-4" : "-bottom-4 -left-4"} opacity-15`}>
-                    <PawIcon size={48} color={concept.color} />
-                  </div>
+        {loading ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-sm animate-pulse">
+                <div className="aspect-square bg-gray-100" />
+                <div className="p-3 space-y-2">
+                  <div className="h-2 bg-gray-100 rounded w-1/3" />
+                  <div className="h-3 bg-gray-100 rounded" />
+                  <div className="h-4 bg-gray-100 rounded w-1/2" />
                 </div>
-
-                <div className="w-full md:w-1/2 text-center md:text-left">
-                  <div
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4"
-                    style={{ backgroundColor: `${concept.color}15` }}
-                  >
-                    <concept.icon size={18} color={concept.color} />
-                    <span className="text-sm font-bold" style={{ color: concept.color }}>
-                      {concept.title}
-                    </span>
-                  </div>
-                  <h3
-                    className="text-2xl md:text-3xl font-bold font-heading mb-4"
-                    style={{ color: "#2D2D2D" }}
-                  >
-                    {concept.title}
-                  </h3>
-                  <p
-                    className="text-base md:text-lg leading-relaxed"
-                    style={{ color: "#2D2D2D", opacity: 0.65 }}
-                  >
-                    {concept.description}
-                  </p>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
+              </div>
+            ))}
+          </div>
+        ) : products.length === 0 ? (
+          <div className="text-center py-20">
+            <PawIcon size={36} color="#F6A54B" className="mx-auto mb-4 opacity-20" />
+            <p style={{ color: "#2D2D2D", opacity: 0.4 }}>商品を準備中です</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
+            {products.map((product, i) => (
+              <ProductCard key={product.id} product={product} index={i} />
+            ))}
+          </div>
+        )}
       </section>
 
       <SectionDivider />
 
-      {/* エモーショナルCTAセクション */}
-      <section className="py-24 px-6">
+      {/* エモーショナルCTA */}
+      <section className="py-20 px-6 pb-24">
         <motion.div
           className="max-w-4xl mx-auto rounded-[2rem] overflow-hidden relative"
           initial="hidden"
@@ -417,64 +172,27 @@ export default function Home() {
           transition={{ duration: 0.6 }}
         >
           <div className="absolute inset-0">
-            <Image
-              src="/images/hero-gaze.png"
-              alt=""
-              fill
-              className="object-cover"
-            />
-            <div
-              className="absolute inset-0"
-              style={{ background: "linear-gradient(135deg, rgba(246,165,75,0.85), rgba(229,139,45,0.9))" }}
-            />
+            <Image src="/images/hero-gaze.png" alt="" fill className="object-cover" />
+            <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(246,165,75,0.85), rgba(229,139,45,0.9))" }} />
           </div>
-
           <div className="relative z-10 p-12 md:p-20 text-center text-white">
             <div className="absolute top-8 right-10 opacity-15">
               <PawIcon size={70} color="white" double />
             </div>
-
-            <motion.h2
-              className="text-3xl md:text-5xl font-bold font-heading mb-6 leading-tight"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              10年後も、
-              <br />
-              この笑顔のそばに。
-            </motion.h2>
-            <motion.p
-              className="text-white/85 mb-10 max-w-md mx-auto text-lg leading-relaxed"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              今日の遊びが、明日の健康をつくる。
-              <br />
+            <h2 className="text-3xl md:text-5xl font-bold font-heading mb-6 leading-tight">
+              10年後も、<br />この笑顔のそばに。
+            </h2>
+            <p className="text-white/85 mb-10 max-w-md mx-auto text-lg leading-relaxed">
+              今日の遊びが、明日の健康をつくる。<br />
               Woofullと一緒に、愛犬の未来を変えよう。
-            </motion.p>
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-              transition={{ duration: 0.5, delay: 0.4 }}
+            </p>
+            <Link
+              href="/products"
+              className="inline-block font-bold px-10 py-4 rounded-full text-lg transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+              style={{ backgroundColor: "white", color: "#2D2D2D" }}
             >
-              <a
-                href="/products"
-                className="inline-block font-bold px-10 py-4 rounded-full text-lg transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
-                style={{ backgroundColor: "white", color: "#2D2D2D" }}
-                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#2D2D2D"; e.currentTarget.style.color = "white"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "white"; e.currentTarget.style.color = "#2D2D2D"; }}
-              >
-                商品をチェック →
-              </a>
-            </motion.div>
+              商品をチェック →
+            </Link>
           </div>
         </motion.div>
       </section>
@@ -484,30 +202,16 @@ export default function Home() {
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-3">
             <PawIcon size={28} color="#F6A54B" />
-            <span className="text-xl font-bold font-heading text-white">
-              Woofull
-            </span>
+            <span className="text-xl font-bold font-heading text-white">Woofull</span>
           </div>
           <nav className="flex flex-wrap gap-6 text-sm text-white/70">
-            <a href="/about" className="hover:text-[#F6A54B] transition-colors">
-              ブランドストーリー
-            </a>
-            <a href="/legal/tokushoho" className="hover:text-[#F6A54B] transition-colors">
-              特定商取引法
-            </a>
-            <a href="/legal/privacy" className="hover:text-[#F6A54B] transition-colors">
-              プライバシーポリシー
-            </a>
-            <a href="/legal/returns" className="hover:text-[#F6A54B] transition-colors">
-              返品・交換
-            </a>
-            <a href="/contact" className="hover:text-[#F6A54B] transition-colors">
-              お問い合わせ
-            </a>
+            <Link href="/concept" className="hover:text-[#F6A54B] transition-colors">コンセプト</Link>
+            <a href="/legal/tokushoho" className="hover:text-[#F6A54B] transition-colors">特定商取引法</a>
+            <a href="/legal/privacy" className="hover:text-[#F6A54B] transition-colors">プライバシーポリシー</a>
+            <a href="/legal/returns" className="hover:text-[#F6A54B] transition-colors">返品・交換</a>
+            <a href="/contact" className="hover:text-[#F6A54B] transition-colors">お問い合わせ</a>
           </nav>
-          <p className="text-xs text-white/40">
-            © 2026 Woofull. All rights reserved.
-          </p>
+          <p className="text-xs text-white/40">© 2026 Woofull. All rights reserved.</p>
         </div>
       </footer>
     </main>

@@ -26,6 +26,7 @@ type ProductRow = {
   is_published: boolean
   detail_content: string
   specs: ProductSpec[] | null
+  sizes: string[] | null
   discount_percent: number
   discount_start: string | null
   discount_end: string | null

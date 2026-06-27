@@ -73,7 +73,7 @@ export default function CartPage() {
         {/* 商品リスト */}
         <div className="space-y-4 mb-10">
           {items.map((item, i) => (
-            <motion.div key={item.id} className="flex gap-4 md:gap-6 bg-white rounded-2xl p-4 md:p-5 shadow-sm" initial="hidden" animate="visible" variants={fadeInUp} transition={{ duration: 0.4, delay: i * 0.05 }}>
+            <motion.div key={item.cartKey} className="flex gap-4 md:gap-6 bg-white rounded-2xl p-4 md:p-5 shadow-sm" initial="hidden" animate="visible" variants={fadeInUp} transition={{ duration: 0.4, delay: i * 0.05 }}>
               <Link href={`/products/${item.slug}`} className="flex-shrink-0">
                 <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden">
                   <Image src={item.image} alt={item.name} fill className="object-cover" />
@@ -83,14 +83,19 @@ export default function CartPage() {
                 <Link href={`/products/${item.slug}`}>
                   <h3 className="text-sm md:text-base font-bold font-heading mb-1 truncate hover:opacity-70 transition-opacity" style={{ color: "#2D2D2D" }}>{item.name}</h3>
                 </Link>
+                {item.size && (
+                  <span className="inline-block text-xs font-bold px-2 py-0.5 rounded-full mb-1" style={{ backgroundColor: "#F6A54B15", color: "#F6A54B" }}>
+                    サイズ: {item.size}
+                  </span>
+                )}
                 <p className="text-base md:text-lg font-extrabold font-heading mb-3" style={{ color: "#2D2D2D" }}>¥{item.price.toLocaleString()}</p>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center border rounded-lg overflow-hidden" style={{ borderColor: "rgba(45,45,45,0.1)" }}>
-                    <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-50 transition-colors"><Minus size={14} color="#2D2D2D" /></button>
+                    <button onClick={() => updateQuantity(item.cartKey, item.quantity - 1)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-50 transition-colors"><Minus size={14} color="#2D2D2D" /></button>
                     <span className="w-8 h-8 flex items-center justify-center text-sm font-bold" style={{ color: "#2D2D2D" }}>{item.quantity}</span>
-                    <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-50 transition-colors"><Plus size={14} color="#2D2D2D" /></button>
+                    <button onClick={() => updateQuantity(item.cartKey, item.quantity + 1)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-50 transition-colors"><Plus size={14} color="#2D2D2D" /></button>
                   </div>
-                  <button onClick={() => removeItem(item.id)} className="p-2 hover:opacity-50 transition-opacity"><Trash2 size={16} color="#2D2D2D" /></button>
+                  <button onClick={() => removeItem(item.cartKey)} className="p-2 hover:opacity-50 transition-opacity"><Trash2 size={16} color="#2D2D2D" /></button>
                 </div>
               </div>
             </motion.div>

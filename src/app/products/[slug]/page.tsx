@@ -24,6 +24,8 @@ export default function ProductDetailPage() {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [addedToCart, setAddedToCart] = useState(false);
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [sizeError, setSizeError] = useState(false);
   const { isFavorite, toggle: toggleFavorite } = useFavorite(product?.id || "");
 
   useEffect(() => {
@@ -53,12 +55,18 @@ export default function ProductDetailPage() {
 
   const handleAddToCart = () => {
     if (!product) return;
+    if (product.sizes && product.sizes.length > 0 && !selectedSize) {
+      setSizeError(true);
+      return;
+    }
+    setSizeError(false);
     addItem({
       id: product.id,
       name: product.name,
       slug: product.slug,
       price: getDiscountedPrice(product),
       image: product.image_url || "/images/concept-brain.png",
+      size: selectedSize || undefined,
     }, quantity);
     setAddedToCart(true);
     setTimeout(() => setAddedToCart(false), 2000);
@@ -215,6 +223,32 @@ export default function ProductDetailPage() {
             >
               {product.description}
             </p>
+
+            {/* サイズ選択 */}
+            {product.sizes && product.sizes.length > 0 && (
+              <div className="mb-6">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-bold" style={{ color: "#2D2D2D" }}>サイズ</span>
+                  {sizeError && <span className="text-xs text-red-500 font-bold">サイズを選んでください</span>}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {product.sizes.map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => { setSelectedSize(size); setSizeError(false); }}
+                      className="px-5 py-2.5 rounded-xl border-2 text-sm font-bold transition-all duration-200"
+                      style={{
+                        borderColor: selectedSize === size ? "#F6A54B" : "rgba(45,45,45,0.12)",
+                        backgroundColor: selectedSize === size ? "#FFF8F1" : "white",
+                        color: selectedSize === size ? "#F6A54B" : "#2D2D2D",
+                      }}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* 数量選択 */}
             <div className="flex items-center gap-4 mb-6">

@@ -32,6 +32,8 @@ type ProductForm = {
   discount_start: string;
   discount_end: string;
   specs: ProductSpec[];
+  sizes: string[];
+  newSize: string;
 };
 
 const conceptTags = ["脳トレ", "運動", "コミュニケーション", "お散歩", "リラックス"];
@@ -77,6 +79,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     discount_start: "",
     discount_end: "",
     specs: [],
+    sizes: [],
+    newSize: "",
   });
 
   useEffect(() => {
@@ -111,6 +115,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
       discount_start: data.discount_start ? data.discount_start.slice(0, 16) : "",
       discount_end: data.discount_end ? data.discount_end.slice(0, 16) : "",
       specs: data.specs || [],
+      sizes: data.sizes || [],
+      newSize: "",
     });
     setLoading(false);
   }
@@ -173,10 +179,13 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   async function handleSave() {
     setSaving(true);
     setSaveError(null);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { newSize, ...formData } = form;
     const payload = {
-      ...form,
+      ...formData,
       stock_quantity: form.stock_quantity !== "" ? parseInt(form.stock_quantity) : null,
       specs: form.specs.filter((s) => s.label.trim()),
+      sizes: form.sizes.length > 0 ? form.sizes : null,
       discount_start: form.discount_start || null,
       discount_end: form.discount_end || null,
       updated_at: new Date().toISOString(),
@@ -433,6 +442,50 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
           {/* スペックタブ */}
           {activeTab === "specs" && (
             <>
+              {/* サイズ選択肢 */}
+              <div className="pb-5 mb-5" style={{ borderBottom: "1px solid rgba(45,45,45,0.06)" }}>
+                <p className="text-xs font-bold mb-3" style={{ color: "#2D2D2D", opacity: 0.55 }}>サイズ選択肢</p>
+                <p className="text-xs mb-3" style={{ color: "#2D2D2D", opacity: 0.4 }}>設定すると商品ページにサイズ選択ボタンが表示されます</p>
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {form.sizes.map((size, i) => (
+                    <span key={i} className="flex items-center gap-1 px-3 py-1.5 rounded-full border text-sm font-bold" style={{ borderColor: "#F6A54B", color: "#F6A54B", backgroundColor: "#FFF8F1" }}>
+                      {size}
+                      <button onClick={() => setForm((prev) => ({ ...prev, sizes: prev.sizes.filter((_, si) => si !== i) }))} className="hover:opacity-50">
+                        <X size={12} />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={form.newSize}
+                    onChange={(e) => setForm((prev) => ({ ...prev, newSize: e.target.value }))}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && form.newSize.trim()) {
+                        e.preventDefault();
+                        setForm((prev) => ({ ...prev, sizes: [...prev.sizes, prev.newSize.trim()], newSize: "" }));
+                      }
+                    }}
+                    placeholder="S / M / L / XL など"
+                    className="flex-1 px-3 py-2 rounded-xl border text-sm outline-none focus:border-[#F6A54B]"
+                    style={{ borderColor: "rgba(45,45,45,0.1)", color: "#2D2D2D" }}
+                  />
+                  <button
+                    onClick={() => {
+                      if (form.newSize.trim()) {
+                        setForm((prev) => ({ ...prev, sizes: [...prev.sizes, prev.newSize.trim()], newSize: "" }));
+                      }
+                    }}
+                    className="px-4 py-2 rounded-xl text-sm font-bold"
+                    style={{ backgroundColor: "#F6A54B15", color: "#F6A54B" }}
+                  >
+                    追加
+                  </button>
+                </div>
+                <p className="text-[10px] mt-1" style={{ color: "#2D2D2D", opacity: 0.35 }}>Enterまたは追加ボタンで登録</p>
+              </div>
+
               <p className="text-sm" style={{ color: "#2D2D2D", opacity: 0.5 }}>
                 商品詳細ページのスペック表に表示されます（素材、サイズ、重量など）
               </p>
