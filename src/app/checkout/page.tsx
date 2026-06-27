@@ -126,6 +126,13 @@ export default function CheckoutPage() {
   }, [user, authLoading, router]);
 
   useEffect(() => {
+    const saved = localStorage.getItem("woofull_shipping");
+    if (saved) {
+      setShipping((prev) => ({ ...prev, ...JSON.parse(saved) }));
+    }
+  }, []);
+
+  useEffect(() => {
     if (user?.email) {
       setShipping((prev) => ({ ...prev, email: user.email! }));
     }
@@ -346,7 +353,10 @@ export default function CheckoutPage() {
 
               <div className="pt-2">
                 <button
-                  onClick={() => setStep("payment")}
+                  onClick={() => {
+                    localStorage.setItem("woofull_shipping", JSON.stringify(shipping));
+                    setStep("payment");
+                  }}
                   disabled={!isShippingValid}
                   className="w-full flex items-center justify-center gap-2 py-4 rounded-full text-white font-bold text-base transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 disabled:opacity-40 disabled:cursor-not-allowed"
                   style={{ backgroundColor: "#F6A54B" }}
