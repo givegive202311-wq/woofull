@@ -170,7 +170,7 @@ function LoginContent() {
             <>
               {/* Google */}
               <button
-                onClick={signInWithGoogle}
+                onClick={() => signInWithGoogle(redirectTo)}
                 className="w-full flex items-center justify-center gap-3 py-3 rounded-xl border text-sm font-medium transition-all duration-300 hover:bg-gray-50"
                 style={{ borderColor: "rgba(45,45,45,0.1)", color: "#2D2D2D" }}
               >
