@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
 import { PawIcon } from "@/components/ui/PawIcon";
-import { Plus, Pencil, Trash2, TrendingUp, Search, X, ChevronUp, ChevronDown } from "lucide-react";
+import { Plus, Pencil, Trash2, TrendingUp, Search, X, ChevronUp, ChevronDown, ToggleLeft, ToggleRight } from "lucide-react";
 import type { Product } from "@/types/database";
 
 type SalesStats = {
@@ -48,6 +48,11 @@ export default function AdminPage() {
     (stats || []).forEach((s: SalesStats) => { statsMap[s.product_id] = s; });
     setSalesStats(statsMap);
     setLoading(false);
+  }
+
+  async function togglePublished(product: Product) {
+    await supabase.from("products").update({ is_published: !product.is_published }).eq("id", product.id);
+    fetchAll();
   }
 
   async function handleDelete(id: string) {
@@ -237,9 +242,22 @@ export default function AdminPage() {
                       ¥{product.cost_price.toLocaleString()}
                     </td>
                     <td className="px-5 py-3 text-center">
-                      <span className={`text-xs font-bold px-2 py-1 rounded-full ${product.is_published ? "bg-green-50 text-green-600" : "bg-gray-100 text-gray-500"}`}>
-                        {product.is_published ? "公開" : "非公開"}
-                      </span>
+                      <button
+                        onClick={() => togglePublished(product)}
+                        className="flex items-center gap-1 mx-auto transition-opacity hover:opacity-70"
+                      >
+                        {product.is_published ? (
+                          <>
+                            <ToggleRight size={22} color="#1D9E75" />
+                            <span className="text-xs font-bold" style={{ color: "#1D9E75" }}>公開</span>
+                          </>
+                        ) : (
+                          <>
+                            <ToggleLeft size={22} color="#a0a0a0" />
+                            <span className="text-xs font-bold" style={{ color: "#a0a0a0" }}>非公開</span>
+                          </>
+                        )}
+                      </button>
                     </td>
                     <td className="px-5 py-3 text-right">
                       {stats ? (
