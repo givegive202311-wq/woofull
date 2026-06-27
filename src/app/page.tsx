@@ -127,10 +127,10 @@ export default function Home() {
   }
 
   return (
-    <main className="flex-1">
+    <main className="flex-1 pt-16 md:pt-20">
 
       {/* ─── ヒーロー（約55vh）───────────────────────────────── */}
-      <section className="relative w-full overflow-hidden bg-[#2D2D2D]" style={{ height: "56vh", minHeight: "340px" }}>
+      <section className="relative w-full overflow-hidden bg-[#2D2D2D]" style={{ height: "56vh", minHeight: "320px" }}>
         {/* スライド画像 */}
         <AnimatePresence>
           <motion.div

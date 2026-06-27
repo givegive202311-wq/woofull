@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { PawIcon } from "@/components/ui/PawIcon";
 import { useCart } from "@/hooks/useCart";
@@ -15,9 +14,6 @@ const navLinks = [
 ];
 
 export function Header() {
-  const pathname = usePathname();
-  const isHome = pathname === "/";
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [barVisible, setBarVisible] = useState(false);
   const { totalItems } = useCart();
@@ -33,23 +29,16 @@ export function Header() {
     setBarVisible(false);
   }
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const useDark = !isHome || scrolled;
-  const textColor = useDark ? "#2D2D2D" : "#ffffff";
+  const textColor = "#2D2D2D";
 
   return (
     <>
       <motion.header
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+        className="fixed top-0 left-0 right-0 z-50"
         style={{
-          backgroundColor: useDark ? "rgba(255,248,241,0.95)" : "transparent",
-          backdropFilter: useDark ? "blur(12px)" : "none",
-          borderBottom: useDark ? "1px solid rgba(45,45,45,0.06)" : "none",
+          backgroundColor: "rgba(255,248,241,0.97)",
+          backdropFilter: "blur(12px)",
+          borderBottom: "1px solid rgba(45,45,45,0.06)",
         }}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -67,11 +56,7 @@ export function Header() {
         )}
         <div className="max-w-6xl mx-auto px-6 md:px-10 h-16 md:h-20 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 group">
-            <PawIcon
-              size={22}
-              color={useDark ? "#F6A54B" : "#ffffff"}
-              className="transition-colors duration-500"
-            />
+            <PawIcon size={22} color="#F6A54B" />
             <span
               className="text-lg md:text-xl font-extrabold font-heading tracking-tight transition-colors duration-500"
               style={{ color: textColor }}
