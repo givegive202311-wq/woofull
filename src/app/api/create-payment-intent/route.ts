@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-  const { amount, items, shipping } = await req.json();
+  const { amount, items, shipping, couponCode, couponDiscount } = await req.json();
 
   const paymentIntent = await stripe.paymentIntents.create({
     amount,
@@ -14,6 +14,8 @@ export async function POST(req: NextRequest) {
     metadata: {
       items: JSON.stringify(items),
       shipping: shipping ? JSON.stringify(shipping) : "",
+      coupon_code: couponCode || "",
+      coupon_discount: couponDiscount ? String(couponDiscount) : "0",
     },
   });
 

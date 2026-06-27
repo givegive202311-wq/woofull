@@ -89,6 +89,7 @@ function CheckoutForm({ shipping }: { shipping: ShippingInfo }) {
       setLoading(false);
     } else {
       clearCart();
+      localStorage.removeItem("woofull_coupon");
     }
   };
 
@@ -118,6 +119,8 @@ export default function CheckoutPage() {
   const [shipping, setShipping] = useState<ShippingInfo>(emptyShipping);
   const [step, setStep] = useState<"shipping" | "payment">("shipping");
   const [postalLoading, setPostalLoading] = useState(false);
+  const [couponCode, setCouponCode] = useState<string | null>(null);
+  const [couponDiscount, setCouponDiscount] = useState(0);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -127,8 +130,12 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     const saved = localStorage.getItem("woofull_shipping");
-    if (saved) {
-      setShipping((prev) => ({ ...prev, ...JSON.parse(saved) }));
+    if (saved) setShipping((prev) => ({ ...prev, ...JSON.parse(saved) }));
+    const savedCoupon = localStorage.getItem("woofull_coupon");
+    if (savedCoupon) {
+      const { code, discount } = JSON.parse(savedCoupon);
+      setCouponCode(code);
+      setCouponDiscount(discount);
     }
   }, []);
 
@@ -141,13 +148,16 @@ export default function CheckoutPage() {
   useEffect(() => {
     if (items.length === 0 || step !== "payment" || clientSecret) return;
 
+    const discountedSubtotal = Math.max(0, totalPrice - couponDiscount);
     fetch("/api/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        amount: totalPrice + getShippingFee(totalPrice),
+        amount: discountedSubtotal + getShippingFee(discountedSubtotal),
         items: items.map((i) => ({ id: i.id, name: i.name, quantity: i.quantity })),
         shipping,
+        couponCode,
+        couponDiscount,
       }),
     })
       .then((res) => res.json())

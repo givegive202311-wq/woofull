@@ -294,6 +294,30 @@ export default function ProductDetailPage() {
           </motion.div>
         </div>
 
+        {/* スペック表 */}
+        {product.specs && product.specs.length > 0 && (
+          <motion.div
+            className="mt-16 bg-white rounded-2xl p-8 md:p-12 shadow-sm"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+          >
+            <h2 className="text-xl font-bold font-heading mb-6" style={{ color: "#2D2D2D" }}>
+              商品スペック
+            </h2>
+            <table className="w-full text-sm">
+              <tbody>
+                {product.specs.map((spec, i) => (
+                  <tr key={i} style={{ borderTop: i === 0 ? "1px solid rgba(45,45,45,0.08)" : undefined, borderBottom: "1px solid rgba(45,45,45,0.08)" }}>
+                    <td className="py-3 pr-6 font-bold w-1/3" style={{ color: "#2D2D2D", opacity: 0.55 }}>{spec.label}</td>
+                    <td className="py-3" style={{ color: "#2D2D2D" }}>{spec.value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </motion.div>
+        )}
+
         {/* 商品詳細コンテンツ（マークダウン） */}
         {product.detail_content && (
           <motion.div

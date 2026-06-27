@@ -36,6 +36,8 @@ export async function POST(req: NextRequest) {
 
   const items = pi.metadata?.items ? JSON.parse(pi.metadata.items) : [];
   const shipping = pi.metadata?.shipping ? JSON.parse(pi.metadata.shipping) : {};
+  const couponCode = pi.metadata?.coupon_code || null;
+  const couponDiscount = parseInt(pi.metadata?.coupon_discount || "0");
 
   const { data: order } = await supabaseAdmin.from("orders").insert({
     customer_name: shipping.name || "",
@@ -46,7 +48,14 @@ export async function POST(req: NextRequest) {
     stripe_payment_intent_id: paymentIntentId,
     payment_status: "paid",
     fulfillment_status: "not_ordered",
+    coupon_code: couponCode,
+    coupon_discount: couponDiscount,
   }).select("id").single();
+
+  // クーポン使用回数をインクリメント
+  if (couponCode && order) {
+    await supabaseAdmin.rpc("increment_coupon_used", { coupon_code: couponCode });
+  }
 
   // 注文確認メールを送信
   if (shipping.email && order) {

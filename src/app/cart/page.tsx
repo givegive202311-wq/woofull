@@ -36,6 +36,7 @@ export default function CartPage() {
     } else {
       setAppliedCoupon(data.coupon);
       setCouponDiscount(data.discount);
+      localStorage.setItem("woofull_coupon", JSON.stringify({ code: data.coupon.code, discount: data.discount }));
     }
     setCouponLoading(false);
   };
@@ -45,6 +46,7 @@ export default function CartPage() {
     setCouponDiscount(0);
     setCouponCode("");
     setCouponError(null);
+    localStorage.removeItem("woofull_coupon");
   };
 
   const finalTotal = Math.max(0, totalPrice - couponDiscount) + getShippingFee(Math.max(0, totalPrice - couponDiscount));
