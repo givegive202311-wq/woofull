@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { PawIcon } from "@/components/ui/PawIcon";
 import { useCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
-import { Menu, X, ShoppingBag, User } from "lucide-react";
+import { Menu, X, ShoppingBag, User, Truck } from "lucide-react";
 
 const navLinks = [
   { href: "/products", label: "商品一覧" },
@@ -19,8 +19,19 @@ export function Header() {
   const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [barVisible, setBarVisible] = useState(false);
   const { totalItems } = useCart();
   const { user } = useAuth();
+
+  useEffect(() => {
+    const dismissed = sessionStorage.getItem("woofull_announcement_dismissed");
+    if (!dismissed) setBarVisible(true);
+  }, []);
+
+  function dismissBar() {
+    sessionStorage.setItem("woofull_announcement_dismissed", "1");
+    setBarVisible(false);
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -44,6 +55,16 @@ export function Header() {
         animate={{ y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
       >
+        {/* アナウンスバー */}
+        {barVisible && (
+          <div className="w-full flex items-center justify-center gap-2 py-2 px-4 text-white text-xs font-bold relative" style={{ backgroundColor: "#F6A54B" }}>
+            <Truck size={13} className="flex-shrink-0" />
+            <span>¥5,000以上のご注文で<span className="underline underline-offset-2">送料無料</span></span>
+            <button onClick={dismissBar} className="absolute right-3 top-1/2 -translate-y-1/2 opacity-70 hover:opacity-100 transition-opacity" aria-label="閉じる">
+              <X size={13} />
+            </button>
+          </div>
+        )}
         <div className="max-w-6xl mx-auto px-6 md:px-10 h-16 md:h-20 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 group">
             <PawIcon
