@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 import { PawIcon } from "@/components/ui/PawIcon";
-import { ArrowLeft, ShoppingCart, Truck, Shield, RotateCcw, Heart, Share2 } from "lucide-react";
+import { ArrowLeft, ShoppingCart, Truck, Shield, RotateCcw, Heart, Share2, X, ArrowRight } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
 import { useFavorite } from "@/hooks/useFavorite";
 import { isDiscountActive, getDiscountedPrice, getRemainingTime } from "@/lib/discount";
@@ -82,7 +82,7 @@ export default function ProductDetailPage() {
       size: selectedSize || undefined,
     }, quantity);
     setAddedToCart(true);
-    setTimeout(() => setAddedToCart(false), 2000);
+    setTimeout(() => setAddedToCart(false), 4000);
   };
 
   if (loading) {
@@ -297,19 +297,10 @@ export default function ProductDetailPage() {
               <button
                 onClick={handleAddToCart}
                 className="flex-1 flex items-center justify-center gap-2 py-4 rounded-full text-white font-bold text-base transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
-                style={{ backgroundColor: addedToCart ? "#2D2D2D" : "#F6A54B" }}
+                style={{ backgroundColor: "#F6A54B" }}
               >
-                {addedToCart ? (
-                  <>
-                    <PawIcon size={18} color="white" />
-                    カートに追加しました！
-                  </>
-                ) : (
-                  <>
-                    <ShoppingCart size={18} />
-                    カートに追加
-                  </>
-                )}
+                <ShoppingCart size={18} />
+                カートに追加
               </button>
               <button
                 onClick={toggleFavorite}
@@ -477,6 +468,61 @@ export default function ProductDetailPage() {
           </div>
         </div>
       )}
+      {/* カート追加オーバーレイ */}
+      <AnimatePresence>
+        {addedToCart && product && (
+          <motion.div
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-3rem)] max-w-md"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 40 }}
+            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+          >
+            <div
+              className="flex items-center gap-3 p-3 pr-4 rounded-2xl shadow-2xl"
+              style={{ backgroundColor: "#2D2D2D" }}
+            >
+              {/* 商品サムネ */}
+              <div className="relative w-12 h-12 rounded-xl overflow-hidden flex-shrink-0">
+                <Image
+                  src={product.image_url || "/images/concept-brain.png"}
+                  alt={product.name}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+
+              {/* テキスト */}
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-bold text-white opacity-60 mb-0.5">カートに追加しました</p>
+                <p className="text-sm font-bold text-white truncate">{product.name}</p>
+                {selectedSize && (
+                  <p className="text-xs text-white opacity-50">サイズ: {selectedSize}</p>
+                )}
+              </div>
+
+              {/* カートへ移動ボタン */}
+              <Link
+                href="/cart"
+                className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap flex-shrink-0 transition-opacity hover:opacity-80"
+                style={{ backgroundColor: "#F6A54B", color: "white" }}
+                onClick={() => setAddedToCart(false)}
+              >
+                カートへ
+                <ArrowRight size={13} />
+              </Link>
+
+              {/* 閉じるボタン */}
+              <button
+                onClick={() => setAddedToCart(false)}
+                className="ml-1 flex-shrink-0 opacity-40 hover:opacity-70 transition-opacity"
+              >
+                <X size={16} color="white" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }
