@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
+import { sendOrderConfirmationEmail } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 
@@ -36,7 +37,7 @@ export async function POST(req: NextRequest) {
   const items = pi.metadata?.items ? JSON.parse(pi.metadata.items) : [];
   const shipping = pi.metadata?.shipping ? JSON.parse(pi.metadata.shipping) : {};
 
-  await supabaseAdmin.from("orders").insert({
+  const { data: order } = await supabaseAdmin.from("orders").insert({
     customer_name: shipping.name || "",
     customer_email: shipping.email || "",
     shipping_address: shipping,
@@ -45,7 +46,18 @@ export async function POST(req: NextRequest) {
     stripe_payment_intent_id: paymentIntentId,
     payment_status: "paid",
     fulfillment_status: "not_ordered",
-  });
+  }).select("id").single();
+
+  // 注文確認メールを送信
+  if (shipping.email && order) {
+    await sendOrderConfirmationEmail({
+      to: shipping.email,
+      orderNumber: order.id.slice(0, 8).toUpperCase(),
+      items,
+      totalAmount: pi.amount,
+      shipping,
+    });
+  }
 
   return NextResponse.json({ ok: true });
 }
