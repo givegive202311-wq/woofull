@@ -19,7 +19,6 @@ type ShippingInfo = {
   postalCode: string;
   prefecture: string;
   city: string;
-  address: string;
   building: string;
 };
 
@@ -30,7 +29,6 @@ const emptyShipping: ShippingInfo = {
   postalCode: "",
   prefecture: "",
   city: "",
-  address: "",
   building: "",
 };
 
@@ -77,8 +75,8 @@ function CheckoutForm({ shipping }: { shipping: ShippingInfo }) {
               country: "JP",
               postal_code: shipping.postalCode,
               state: shipping.prefecture,
-              city: shipping.city,
-              line1: shipping.address,
+              city: shipping.prefecture,
+              line1: shipping.city,
               line2: shipping.building,
             },
           },
@@ -170,7 +168,7 @@ export default function CheckoutPage() {
 
   const isShippingValid =
     shipping.name && shipping.email && shipping.phone &&
-    shipping.postalCode && shipping.prefecture && shipping.city && shipping.address;
+    shipping.postalCode && shipping.prefecture && shipping.city;
 
   if (items.length === 0) {
     return (
