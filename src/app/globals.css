@@ -8,6 +8,8 @@
   --color-primary-dark: #E58B2D;
   --color-accent: #2D2D2D;
   --color-accent-light: #F5F5F5;
+  --font-nunito: 'Nunito', sans-serif;
+  --font-zen-kaku: 'Zen Kaku Gothic New', sans-serif;
   --font-heading: var(--font-nunito);
   --font-body: var(--font-zen-kaku);
 }
