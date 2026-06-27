@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 import { PawIcon } from "@/components/ui/PawIcon";
 import { isDiscountActive, getDiscountedPrice, getRemainingTime } from "@/lib/discount";
+import { Search, X } from "lucide-react";
 import type { Product } from "@/types/database";
 
 const tags = ["すべて", "脳トレ", "運動", "コミュニケーション", "お散歩"];
@@ -19,6 +20,7 @@ const fadeInUp = {
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [activeTag, setActiveTag] = useState("すべて");
+  const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -34,10 +36,13 @@ export default function ProductsPage() {
     fetchProducts();
   }, []);
 
-  const filtered =
-    activeTag === "すべて"
-      ? products
-      : products.filter((p) => p.concept_tag === activeTag);
+  const filtered = products
+    .filter((p) => activeTag === "すべて" || p.concept_tag === activeTag)
+    .filter((p) =>
+      searchQuery === "" ||
+      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.description?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
   return (
     <main className="flex-1 pt-24 pb-20 px-6">
@@ -64,6 +69,27 @@ export default function ProductsPage() {
             愛犬の健康寿命を伸ばすグッズ
           </motion.p>
         </div>
+
+        {/* 検索バー */}
+        <motion.div
+          className="max-w-md mx-auto mb-8 relative"
+          initial="hidden" animate="visible" variants={fadeInUp} transition={{ duration: 0.5, delay: 0.15 }}
+        >
+          <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 opacity-30" color="#2D2D2D" />
+          <input
+            type="text"
+            placeholder="商品を検索..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-10 py-3 rounded-full border text-sm outline-none focus:border-[#F6A54B] transition-colors bg-white"
+            style={{ borderColor: "rgba(45,45,45,0.1)", color: "#2D2D2D" }}
+          />
+          {searchQuery && (
+            <button onClick={() => setSearchQuery("")} className="absolute right-4 top-1/2 -translate-y-1/2 opacity-30 hover:opacity-60">
+              <X size={16} color="#2D2D2D" />
+            </button>
+          )}
+        </motion.div>
 
         {/* フィルタータブ */}
         <motion.div

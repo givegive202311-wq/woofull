@@ -7,8 +7,9 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 import { PawIcon } from "@/components/ui/PawIcon";
-import { ArrowLeft, ShoppingCart, Truck, Shield, RotateCcw } from "lucide-react";
+import { ArrowLeft, ShoppingCart, Truck, Shield, RotateCcw, Heart } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
+import { useFavorite } from "@/hooks/useFavorite";
 import { isDiscountActive, getDiscountedPrice, getRemainingTime } from "@/lib/discount";
 import ReactMarkdown from "react-markdown";
 import type { Product } from "@/types/database";
@@ -17,11 +18,13 @@ export default function ProductDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
   const [product, setProduct] = useState<Product | null>(null);
+  const [related, setRelated] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [addedToCart, setAddedToCart] = useState(false);
+  const { isFavorite, toggle: toggleFavorite } = useFavorite(product?.id || "");
 
   useEffect(() => {
     async function fetchProduct() {
@@ -32,6 +35,18 @@ export default function ProductDetailPage() {
         .single();
       setProduct(data);
       setLoading(false);
+
+      // 同じコンセプトタグの関連商品を取得
+      if (data?.concept_tag) {
+        const { data: rel } = await supabase
+          .from("products")
+          .select("*")
+          .eq("is_published", true)
+          .eq("concept_tag", data.concept_tag)
+          .neq("slug", slug)
+          .limit(4);
+        setRelated(rel || []);
+      }
     }
     fetchProduct();
   }, [slug]);
@@ -230,24 +245,36 @@ export default function ProductDetailPage() {
               </div>
             </div>
 
-            {/* カートに追加ボタン */}
-            <button
-              onClick={handleAddToCart}
-              className="w-full flex items-center justify-center gap-2 py-4 rounded-full text-white font-bold text-base transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 mb-4"
-              style={{ backgroundColor: addedToCart ? "#2D2D2D" : "#F6A54B" }}
-            >
-              {addedToCart ? (
-                <>
-                  <PawIcon size={18} color="white" />
-                  カートに追加しました！
-                </>
-              ) : (
-                <>
-                  <ShoppingCart size={18} />
-                  カートに追加
-                </>
-              )}
-            </button>
+            {/* カートに追加 + お気に入りボタン */}
+            <div className="flex gap-3 mb-4">
+              <button
+                onClick={handleAddToCart}
+                className="flex-1 flex items-center justify-center gap-2 py-4 rounded-full text-white font-bold text-base transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+                style={{ backgroundColor: addedToCart ? "#2D2D2D" : "#F6A54B" }}
+              >
+                {addedToCart ? (
+                  <>
+                    <PawIcon size={18} color="white" />
+                    カートに追加しました！
+                  </>
+                ) : (
+                  <>
+                    <ShoppingCart size={18} />
+                    カートに追加
+                  </>
+                )}
+              </button>
+              <button
+                onClick={toggleFavorite}
+                className="w-14 h-14 rounded-full flex items-center justify-center border-2 transition-all duration-300 hover:-translate-y-0.5"
+                style={{
+                  borderColor: isFavorite ? "#e53e3e" : "rgba(45,45,45,0.12)",
+                  backgroundColor: isFavorite ? "#fff0f0" : "white",
+                }}
+              >
+                <Heart size={20} fill={isFavorite ? "#e53e3e" : "none"} color={isFavorite ? "#e53e3e" : "rgba(45,45,45,0.3)"} />
+              </button>
+            </div>
 
             {/* 安心ポイント */}
             <div className="space-y-3 mt-8 pt-8" style={{ borderTop: "1px solid rgba(45,45,45,0.06)" }}>
@@ -335,6 +362,37 @@ export default function ProductDetailPage() {
           </motion.div>
         )}
       </div>
+
+      {/* 関連商品 */}
+      {related.length > 0 && (
+        <div className="mt-16 max-w-6xl mx-auto px-6 pb-20">
+          <h2 className="text-xl font-bold font-heading mb-6" style={{ color: "#2D2D2D" }}>
+            こんな商品もおすすめ
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {related.map((rel) => (
+              <Link key={rel.id} href={`/products/${rel.slug}`}>
+                <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
+                  <div className="relative aspect-square overflow-hidden">
+                    <Image
+                      src={rel.image_url || "/images/concept-brain.png"}
+                      alt={rel.name}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="p-3">
+                    <p className="text-xs font-bold line-clamp-2 mb-1" style={{ color: "#2D2D2D" }}>{rel.name}</p>
+                    <p className="text-sm font-extrabold" style={{ color: isDiscountActive(rel) ? "#e53e3e" : "#2D2D2D" }}>
+                      ¥{getDiscountedPrice(rel).toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </main>
   );
 }
