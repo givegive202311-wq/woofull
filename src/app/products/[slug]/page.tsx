@@ -7,7 +7,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 import { PawIcon } from "@/components/ui/PawIcon";
-import { ArrowLeft, ShoppingCart, Truck, Shield, RotateCcw, Heart } from "lucide-react";
+import { ArrowLeft, ShoppingCart, Truck, Shield, RotateCcw, Heart, Share2 } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
 import { useFavorite } from "@/hooks/useFavorite";
 import { isDiscountActive, getDiscountedPrice, getRemainingTime } from "@/lib/discount";
@@ -27,6 +27,19 @@ export default function ProductDetailPage() {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [sizeError, setSizeError] = useState(false);
   const { isFavorite, toggle: toggleFavorite } = useFavorite(product?.id || "");
+  const [shared, setShared] = useState(false);
+
+  const handleShare = async () => {
+    if (!product) return;
+    const url = window.location.href;
+    if (navigator.share) {
+      await navigator.share({ title: product.name, text: product.description || "", url });
+    } else {
+      await navigator.clipboard.writeText(url);
+      setShared(true);
+      setTimeout(() => setShared(false), 2000);
+    }
+  };
 
   useEffect(() => {
     async function fetchProduct() {
@@ -309,6 +322,19 @@ export default function ProductDetailPage() {
                 <Heart size={20} fill={isFavorite ? "#e53e3e" : "none"} color={isFavorite ? "#e53e3e" : "rgba(45,45,45,0.3)"} />
               </button>
             </div>
+
+            {/* シェアボタン（スマホのみ） */}
+            <button
+              onClick={handleShare}
+              className="md:hidden w-full flex items-center justify-center gap-2 py-3 rounded-full border text-sm font-bold transition-all duration-200 mb-4"
+              style={{
+                borderColor: shared ? "#1D9E75" : "rgba(45,45,45,0.12)",
+                color: shared ? "#1D9E75" : "#2D2D2D",
+              }}
+            >
+              <Share2 size={15} />
+              {shared ? "URLをコピーしました！" : "この商品をシェアする"}
+            </button>
 
             {/* 安心ポイント */}
             <div className="space-y-3 mt-8 pt-8" style={{ borderTop: "1px solid rgba(45,45,45,0.06)" }}>
