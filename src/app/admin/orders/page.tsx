@@ -129,6 +129,13 @@ export default function AdminOrdersPage() {
           >
             注文管理
           </Link>
+          <Link
+            href="/admin/coupons"
+            className="px-5 py-2.5 rounded-full text-sm font-bold border transition-all hover:bg-gray-50"
+            style={{ borderColor: "rgba(45,45,45,0.1)", color: "#2D2D2D" }}
+          >
+            クーポン管理
+          </Link>
         </div>
 
         <div className="flex items-center justify-between mb-8">
