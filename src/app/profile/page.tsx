@@ -45,7 +45,7 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <main className="flex-1 pt-28 flex items-center justify-center">
+      <main className="flex-1 pt-32 flex items-center justify-center">
         <motion.div animate={{ rotate: 360 }} transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}>
           <PawIcon size={32} color="#F6A54B" className="opacity-40" />
         </motion.div>
@@ -58,7 +58,7 @@ export default function ProfilePage() {
   const handleSignOut = async () => { await signOut(); router.push("/"); };
 
   return (
-    <main className="flex-1 pt-28 pb-20 px-6">
+    <main className="flex-1 pt-32 pb-20 px-6">
       <div className="max-w-lg mx-auto">
         <motion.div className="text-center mb-10" initial="hidden" animate="visible" variants={fadeInUp} transition={{ duration: 0.5 }}>
           <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: "#F6A54B15" }}>

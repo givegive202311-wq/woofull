@@ -45,7 +45,7 @@ export default function ProductsPage() {
     );
 
   return (
-    <main className="flex-1 pt-20 md:pt-28 pb-20 px-6">
+    <main className="flex-1 pt-20 md:pt-32 pb-20 px-6">
       <div className="max-w-6xl mx-auto">
         {/* ヘッダー */}
         <div className="text-center mb-12">

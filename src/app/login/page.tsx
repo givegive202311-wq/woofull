@@ -76,7 +76,7 @@ function LoginContent() {
 
   if (signupDone) {
     return (
-      <main className="flex-1 pt-28 pb-20 flex items-center justify-center px-6">
+      <main className="flex-1 pt-32 pb-20 flex items-center justify-center px-6">
         <motion.div
           className="text-center max-w-sm"
           initial={{ opacity: 0, y: 20 }}
@@ -95,7 +95,7 @@ function LoginContent() {
   }
 
   return (
-    <main className="flex-1 pt-28 pb-20 flex items-center justify-center px-6">
+    <main className="flex-1 pt-32 pb-20 flex items-center justify-center px-6">
       <motion.div
         className="w-full max-w-sm"
         initial={{ opacity: 0, y: 20 }}

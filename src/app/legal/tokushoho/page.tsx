@@ -25,7 +25,7 @@ const rows = [
 
 export default function TokushohoPage() {
   return (
-    <main className="flex-1 pt-28 pb-20 px-6">
+    <main className="flex-1 pt-32 pb-20 px-6">
       <div className="max-w-3xl mx-auto">
         <motion.h1
           className="text-2xl md:text-3xl font-bold font-heading mb-10"

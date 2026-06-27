@@ -45,7 +45,7 @@ const concepts = [
 
 export default function ConceptPage() {
   return (
-    <main className="flex-1 pt-28 pb-20">
+    <main className="flex-1 pt-32 pb-20">
       {/* ヒーロー */}
       <section className="py-16 px-6 text-center" style={{ backgroundColor: "#FFF8F1" }}>
         <motion.div

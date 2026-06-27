@@ -69,7 +69,7 @@ export default function AdminOrdersPage() {
 
   if (authLoading || loading) {
     return (
-      <main className="flex-1 pt-28 flex items-center justify-center">
+      <main className="flex-1 pt-32 flex items-center justify-center">
         <motion.div animate={{ rotate: 360 }} transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}>
           <PawIcon size={32} color="#F6A54B" className="opacity-40" />
         </motion.div>
@@ -111,7 +111,7 @@ export default function AdminOrdersPage() {
   if (!isAdmin) return null;
 
   return (
-    <main className="flex-1 pt-28 pb-20 px-6">
+    <main className="flex-1 pt-32 pb-20 px-6">
       <div className="max-w-5xl mx-auto">
         {/* 管理メニュー */}
         <div className="flex gap-3 mb-8">
