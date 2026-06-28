@@ -3,6 +3,7 @@
 import { AuthProvider } from "@/hooks/useAuth";
 import { CartProvider } from "@/hooks/useCart";
 import { Header } from "./Header";
+import { ShopChat } from "@/components/ui/ShopChat";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -10,6 +11,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <CartProvider>
         <Header />
         {children}
+        <ShopChat />
       </CartProvider>
     </AuthProvider>
   );
