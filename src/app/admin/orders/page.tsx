@@ -35,6 +35,8 @@ export default function AdminOrdersPage() {
   const [fulfillmentFilter, setFulfillmentFilter] = useState("all");
   const [sortKey, setSortKey] = useState<"created_at" | "total_amount">("created_at");
   const [sortDir, setSortDir] = useState<"desc" | "asc">("desc");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
 
   useEffect(() => {
     if (!authLoading && (!user || !isAdmin)) {
@@ -127,6 +129,12 @@ export default function AdminOrdersPage() {
         o.id.toLowerCase().includes(q)
       );
     })
+    .filter((o) => {
+      const t = new Date(o.created_at).getTime();
+      if (dateFrom && t < new Date(dateFrom).getTime()) return false;
+      if (dateTo && t > new Date(dateTo + "T23:59:59").getTime()) return false;
+      return true;
+    })
     .sort((a, b) => {
       const av = sortKey === "created_at" ? new Date(a.created_at).getTime() : (a.total_amount ?? 0);
       const bv = sortKey === "created_at" ? new Date(b.created_at).getTime() : (b.total_amount ?? 0);
@@ -213,6 +221,34 @@ export default function AdminOrdersPage() {
                 {l}
               </button>
             ))}
+          </div>
+
+          {/* 期間フィルター */}
+          <div className="flex flex-wrap gap-2 items-center">
+            <span className="text-xs font-bold mr-1" style={{ color: "#2D2D2D", opacity: 0.4 }}>期間</span>
+            <input
+              type="date"
+              value={dateFrom}
+              onChange={(e) => setDateFrom(e.target.value)}
+              className="px-3 py-1.5 rounded-lg border text-xs outline-none focus:border-[#F6A54B] transition-colors bg-white"
+              style={{ borderColor: "rgba(45,45,45,0.1)", color: "#2D2D2D" }}
+            />
+            <span className="text-xs" style={{ color: "#2D2D2D", opacity: 0.4 }}>〜</span>
+            <input
+              type="date"
+              value={dateTo}
+              onChange={(e) => setDateTo(e.target.value)}
+              className="px-3 py-1.5 rounded-lg border text-xs outline-none focus:border-[#F6A54B] transition-colors bg-white"
+              style={{ borderColor: "rgba(45,45,45,0.1)", color: "#2D2D2D" }}
+            />
+            {(dateFrom || dateTo) && (
+              <button
+                onClick={() => { setDateFrom(""); setDateTo(""); }}
+                className="px-2 py-1.5 rounded-lg text-xs opacity-40 hover:opacity-70 transition-opacity"
+              >
+                <X size={12} color="#2D2D2D" />
+              </button>
+            )}
           </div>
 
           {/* ソート */}
