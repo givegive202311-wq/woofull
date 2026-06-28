@@ -17,6 +17,13 @@ type SalesStats = {
   revenue: number;
 };
 
+type SortKey = "created_at" | "sell_price" | "revenue" | "sold_count";
+
+function SortIcon({ current, k, dir }: { current: SortKey; k: SortKey; dir: "asc" | "desc" }) {
+  if (current !== k) return <ChevronDown size={12} style={{ opacity: 0.2 }} />;
+  return dir === "desc" ? <ChevronDown size={12} /> : <ChevronUp size={12} />;
+}
+
 export default function AdminPage() {
   const { user, loading: authLoading, isAdmin } = useAuth();
   const router = useRouter();
@@ -25,7 +32,7 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "published" | "draft">("all");
-  const [sortKey, setSortKey] = useState<"created_at" | "sell_price" | "revenue" | "sold_count">("created_at");
+  const [sortKey, setSortKey] = useState<SortKey>("created_at");
   const [sortDir, setSortDir] = useState<"desc" | "asc">("desc");
 
   useEffect(() => {
@@ -100,18 +107,13 @@ export default function AdminPage() {
       return sortDir === "desc" ? bv - av : av - bv;
     });
 
-  function toggleSort(key: typeof sortKey) {
+  function toggleSort(key: SortKey) {
     if (sortKey === key) {
       setSortDir((d) => (d === "desc" ? "asc" : "desc"));
     } else {
       setSortKey(key);
       setSortDir("desc");
     }
-  }
-
-  function SortIcon({ k }: { k: typeof sortKey }) {
-    if (sortKey !== k) return <ChevronDown size={12} style={{ opacity: 0.2 }} />;
-    return sortDir === "desc" ? <ChevronDown size={12} /> : <ChevronUp size={12} />;
   }
 
   return (
@@ -202,15 +204,15 @@ export default function AdminPage() {
               <tr style={{ backgroundColor: "rgba(246,165,75,0.04)", borderBottom: "1px solid rgba(45,45,45,0.06)" }}>
                 <th className="text-left px-5 py-3 font-bold" style={{ color: "#2D2D2D" }}>商品</th>
                 <th className="text-right px-5 py-3 font-bold hidden md:table-cell cursor-pointer select-none hover:opacity-70" style={{ color: "#2D2D2D" }} onClick={() => toggleSort("sell_price")}>
-                  <div className="flex items-center justify-end gap-1">売価 <SortIcon k="sell_price" /></div>
+                  <div className="flex items-center justify-end gap-1">売価 <SortIcon current={sortKey} k="sell_price" dir={sortDir} /></div>
                 </th>
                 <th className="text-right px-5 py-3 font-bold hidden md:table-cell" style={{ color: "#2D2D2D" }}>原価</th>
                 <th className="text-center px-5 py-3 font-bold" style={{ color: "#2D2D2D" }}>状態</th>
                 <th className="text-right px-5 py-3 font-bold cursor-pointer select-none hover:opacity-70" style={{ color: "#F6A54B" }} onClick={() => toggleSort("revenue")}>
-                  <div className="flex items-center justify-end gap-1"><TrendingUp size={13} />売上 <SortIcon k="revenue" /></div>
+                  <div className="flex items-center justify-end gap-1"><TrendingUp size={13} />売上 <SortIcon current={sortKey} k="revenue" dir={sortDir} /></div>
                 </th>
                 <th className="text-right px-5 py-3 font-bold cursor-pointer select-none hover:opacity-70 hidden md:table-cell" style={{ color: "#2D2D2D" }} onClick={() => toggleSort("sold_count")}>
-                  <div className="flex items-center justify-end gap-1">販売数 <SortIcon k="sold_count" /></div>
+                  <div className="flex items-center justify-end gap-1">販売数 <SortIcon current={sortKey} k="sold_count" dir={sortDir} /></div>
                 </th>
                 <th className="text-right px-5 py-3 font-bold" style={{ color: "#2D2D2D" }}>操作</th>
               </tr>
