@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
 import { PawIcon } from "@/components/ui/PawIcon";
-import { ArrowLeft, ChevronDown, ChevronUp, Package, Truck, CheckCircle, Clock, X, Download } from "lucide-react";
+import { ChevronDown, ChevronUp, Package, Truck, CheckCircle, Clock, X, Download, Search } from "lucide-react";
 import Link from "next/link";
 import type { Order } from "@/types/database";
 
@@ -30,6 +30,11 @@ export default function AdminOrdersPage() {
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
+  const [paymentFilter, setPaymentFilter] = useState("all");
+  const [fulfillmentFilter, setFulfillmentFilter] = useState("all");
+  const [sortKey, setSortKey] = useState<"created_at" | "total_amount">("created_at");
+  const [sortDir, setSortDir] = useState<"desc" | "asc">("desc");
 
   useEffect(() => {
     if (!authLoading && (!user || !isAdmin)) {
@@ -110,6 +115,24 @@ export default function AdminOrdersPage() {
 
   if (!isAdmin) return null;
 
+  const filtered = orders
+    .filter((o) => paymentFilter === "all" || o.payment_status === paymentFilter)
+    .filter((o) => fulfillmentFilter === "all" || o.fulfillment_status === fulfillmentFilter)
+    .filter((o) => {
+      if (!search) return true;
+      const q = search.toLowerCase();
+      return (
+        o.customer_name?.toLowerCase().includes(q) ||
+        o.customer_email?.toLowerCase().includes(q) ||
+        o.id.toLowerCase().includes(q)
+      );
+    })
+    .sort((a, b) => {
+      const av = sortKey === "created_at" ? new Date(a.created_at).getTime() : (a.total_amount ?? 0);
+      const bv = sortKey === "created_at" ? new Date(b.created_at).getTime() : (b.total_amount ?? 0);
+      return sortDir === "desc" ? bv - av : av - bv;
+    });
+
   return (
     <main className="flex-1 pt-32 pb-20 px-6">
       <div className="max-w-5xl mx-auto">
@@ -138,10 +161,8 @@ export default function AdminOrdersPage() {
           </Link>
         </div>
 
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold font-heading" style={{ color: "#2D2D2D" }}>
-            注文管理
-          </h1>
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-2xl font-bold font-heading" style={{ color: "#2D2D2D" }}>注文管理</h1>
           {orders.length > 0 && (
             <button
               onClick={downloadCSV}
@@ -154,14 +175,71 @@ export default function AdminOrdersPage() {
           )}
         </div>
 
-        {orders.length === 0 ? (
+        {/* 検索・フィルター */}
+        <div className="space-y-3 mb-4">
+          {/* 検索 */}
+          <div className="relative">
+            <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 opacity-30" color="#2D2D2D" />
+            <input
+              type="text"
+              placeholder="氏名・メール・注文IDで検索..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-9 pr-9 py-2.5 rounded-xl border text-sm outline-none focus:border-[#F6A54B] transition-colors bg-white"
+              style={{ borderColor: "rgba(45,45,45,0.1)", color: "#2D2D2D" }}
+            />
+            {search && (
+              <button onClick={() => setSearch("")} className="absolute right-3.5 top-1/2 -translate-y-1/2 opacity-30 hover:opacity-60">
+                <X size={14} color="#2D2D2D" />
+              </button>
+            )}
+          </div>
+
+          {/* フィルター・ソート */}
+          <div className="flex flex-wrap gap-2 items-center">
+            <span className="text-xs font-bold mr-1" style={{ color: "#2D2D2D", opacity: 0.4 }}>決済</span>
+            {[["all", "すべて"], ["paid", "決済済み"], ["pending", "未決済"], ["failed", "失敗"]].map(([v, l]) => (
+              <button key={v} onClick={() => setPaymentFilter(v)}
+                className="px-3 py-1.5 rounded-lg text-xs font-bold border transition-all"
+                style={{ backgroundColor: paymentFilter === v ? "#2D2D2D" : "white", color: paymentFilter === v ? "white" : "#2D2D2D", borderColor: paymentFilter === v ? "#2D2D2D" : "rgba(45,45,45,0.1)" }}>
+                {l}
+              </button>
+            ))}
+            <span className="text-xs font-bold ml-2 mr-1" style={{ color: "#2D2D2D", opacity: 0.4 }}>配送</span>
+            {[["all", "すべて"], ["not_ordered", "未発注"], ["ordered_from_supplier", "発注済"], ["shipped", "発送済"], ["delivered", "完了"]].map(([v, l]) => (
+              <button key={v} onClick={() => setFulfillmentFilter(v)}
+                className="px-3 py-1.5 rounded-lg text-xs font-bold border transition-all"
+                style={{ backgroundColor: fulfillmentFilter === v ? "#F6A54B" : "white", color: fulfillmentFilter === v ? "white" : "#2D2D2D", borderColor: fulfillmentFilter === v ? "#F6A54B" : "rgba(45,45,45,0.1)" }}>
+                {l}
+              </button>
+            ))}
+          </div>
+
+          {/* ソート */}
+          <div className="flex gap-2 items-center">
+            <span className="text-xs font-bold mr-1" style={{ color: "#2D2D2D", opacity: 0.4 }}>並び順</span>
+            {([["created_at", "注文日時"], ["total_amount", "金額"]] as const).map(([k, l]) => (
+              <button key={k}
+                onClick={() => { if (sortKey === k) setSortDir(d => d === "desc" ? "asc" : "desc"); else { setSortKey(k); setSortDir("desc"); } }}
+                className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold border transition-all"
+                style={{ backgroundColor: sortKey === k ? "#F6A54B" : "white", color: sortKey === k ? "white" : "#2D2D2D", borderColor: sortKey === k ? "#F6A54B" : "rgba(45,45,45,0.1)" }}>
+                {l}
+                {sortKey === k && (sortDir === "desc" ? <ChevronDown size={11} /> : <ChevronUp size={11} />)}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <p className="text-xs mb-3" style={{ color: "#2D2D2D", opacity: 0.4 }}>{filtered.length}件</p>
+
+        {filtered.length === 0 ? (
           <div className="text-center py-20">
             <PawIcon size={48} color="#F6A54B" className="mx-auto mb-4 opacity-30" />
-            <p style={{ color: "#2D2D2D", opacity: 0.5 }}>まだ注文がありません</p>
+            <p style={{ color: "#2D2D2D", opacity: 0.5 }}>{orders.length === 0 ? "まだ注文がありません" : "条件に合う注文がありません"}</p>
           </div>
         ) : (
           <div className="space-y-4">
-            {orders.map((order) => {
+            {filtered.map((order) => {
               const isExpanded = expandedId === order.id;
               const payment = statusLabels[order.payment_status] || statusLabels.pending;
               const fulfillment = fulfillmentLabels[order.fulfillment_status] || fulfillmentLabels.not_ordered;
