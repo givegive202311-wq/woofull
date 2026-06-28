@@ -243,10 +243,10 @@ export default function AdminPage() {
                       </div>
                     </td>
                     <td className="px-5 py-3 text-right font-bold hidden md:table-cell" style={{ color: "#2D2D2D" }}>
-                      ¥{product.sell_price.toLocaleString()}
+                      {product.sell_price != null ? `¥${product.sell_price.toLocaleString()}` : "—"}
                     </td>
                     <td className="px-5 py-3 text-right hidden md:table-cell" style={{ color: "#2D2D2D", opacity: 0.5 }}>
-                      ¥{product.cost_price.toLocaleString()}
+                      {product.cost_price != null ? `¥${product.cost_price.toLocaleString()}` : "—"}
                     </td>
                     <td className="px-5 py-3 text-center">
                       <button
@@ -269,7 +269,7 @@ export default function AdminPage() {
                     <td className="px-5 py-3 text-right">
                       {stats ? (
                         <div>
-                          <p className="font-bold text-sm" style={{ color: "#F6A54B" }}>¥{stats.revenue.toLocaleString()}</p>
+                          <p className="font-bold text-sm" style={{ color: "#F6A54B" }}>¥{(stats.revenue ?? 0).toLocaleString()}</p>
                           <p className="text-[10px]" style={{ color: "#2D2D2D", opacity: 0.4 }}>{stats.sold_count}個</p>
                         </div>
                       ) : (
