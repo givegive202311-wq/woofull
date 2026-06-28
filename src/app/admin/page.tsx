@@ -46,15 +46,20 @@ export default function AdminPage() {
   }, []);
 
   async function fetchAll() {
-    const [{ data: products }, { data: stats }] = await Promise.all([
-      supabase.from("products").select("*").order("created_at", { ascending: false }),
-      supabase.rpc("get_product_sales_stats"),
-    ]);
-    setProducts(products || []);
-    const statsMap: Record<string, SalesStats> = {};
-    (stats || []).forEach((s: SalesStats) => { statsMap[s.product_id] = s; });
-    setSalesStats(statsMap);
-    setLoading(false);
+    try {
+      const [{ data: products }, { data: stats }] = await Promise.all([
+        supabase.from("products").select("*").order("created_at", { ascending: false }),
+        supabase.rpc("get_product_sales_stats"),
+      ]);
+      setProducts(products || []);
+      const statsMap: Record<string, SalesStats> = {};
+      (stats || []).forEach((s: SalesStats) => { statsMap[s.product_id] = s; });
+      setSalesStats(statsMap);
+    } catch (e) {
+      console.error("fetchAll error:", e);
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function togglePublished(product: Product) {
