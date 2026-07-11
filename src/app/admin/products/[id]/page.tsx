@@ -58,6 +58,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"basic" | "images" | "specs" | "detail" | "pricing">("basic");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -133,10 +134,30 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
   async function uploadImage(file: File): Promise<string | null> {
     setUploading(true);
-    const ext = file.name.split(".").pop();
-    const path = `products/${Date.now()}.${ext}`;
+    setUploadError(null);
+
+    // ファイルサイズ上限: 10MB
+    if (file.size > 10 * 1024 * 1024) {
+      setUploadError("ファイルサイズは10MB以下にしてください");
+      setUploading(false);
+      return null;
+    }
+
+    const ext = file.name.split(".").pop()?.toLowerCase();
+    const allowedExts = ["jpg", "jpeg", "png", "webp", "gif"];
+    if (!ext || !allowedExts.includes(ext)) {
+      setUploadError("jpg / png / webp / gif のみアップロード可能です");
+      setUploading(false);
+      return null;
+    }
+
+    const path = `products/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
     const { error } = await supabase.storage.from("product-images").upload(path, file);
-    if (error) { setUploading(false); return null; }
+    if (error) {
+      setUploadError(`アップロード失敗: ${error.message}`);
+      setUploading(false);
+      return null;
+    }
     const { data } = supabase.storage.from("product-images").getPublicUrl(path);
     setUploading(false);
     return data.publicUrl;
@@ -147,6 +168,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     if (!file) return;
     const url = await uploadImage(file);
     if (url) setForm((prev) => ({ ...prev, image_url: url }));
+    e.target.value = "";
   }
 
   async function handleSubImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -154,6 +176,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     if (!file) return;
     const url = await uploadImage(file);
     if (url) setForm((prev) => ({ ...prev, image_urls: [...prev.image_urls, url] }));
+    e.target.value = "";
   }
 
   function removeSubImage(index: number) {
@@ -356,6 +379,13 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
           {/* 画像タブ */}
           {activeTab === "images" && (
             <>
+              {uploadError && (
+                <div className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm mb-2" style={{ backgroundColor: "#FEE2E2", color: "#DC2626" }}>
+                  <X size={14} />
+                  {uploadError}
+                  <button onClick={() => setUploadError(null)} className="ml-auto opacity-60 hover:opacity-100"><X size={12} /></button>
+                </div>
+              )}
               <div>
                 <label className={labelClass} style={labelStyle}>メイン画像</label>
                 {form.image_url && (
