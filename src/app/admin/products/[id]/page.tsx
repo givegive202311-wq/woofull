@@ -132,16 +132,36 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   }
 
+  // Canvas APIで画像を圧縮・リサイズしてBlobに変換
+  async function compressImage(file: File): Promise<Blob> {
+    const MAX_PX = 1200; // 長辺の最大ピクセル数
+    const QUALITY = 0.82; // JPEG品質（0〜1）
+
+    return new Promise((resolve) => {
+      const img = new window.Image();
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        img.onload = () => {
+          let { width, height } = img;
+          if (width > MAX_PX || height > MAX_PX) {
+            if (width > height) { height = Math.round((height * MAX_PX) / width); width = MAX_PX; }
+            else { width = Math.round((width * MAX_PX) / height); height = MAX_PX; }
+          }
+          const canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+          canvas.getContext("2d")!.drawImage(img, 0, 0, width, height);
+          canvas.toBlob((blob) => resolve(blob!), "image/jpeg", QUALITY);
+        };
+        img.src = e.target!.result as string;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
   async function uploadImage(file: File): Promise<string | null> {
     setUploading(true);
     setUploadError(null);
-
-    // ファイルサイズ上限: 10MB
-    if (file.size > 10 * 1024 * 1024) {
-      setUploadError("ファイルサイズは10MB以下にしてください");
-      setUploading(false);
-      return null;
-    }
 
     const ext = file.name.split(".").pop()?.toLowerCase();
     const allowedExts = ["jpg", "jpeg", "png", "webp", "gif"];
@@ -151,8 +171,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
       return null;
     }
 
-    const path = `products/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-    const { error } = await supabase.storage.from("product-images").upload(path, file);
+    // GIF以外は圧縮する
+    const uploadBlob = ext === "gif" ? file : await compressImage(file);
+
+    const path = `products/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext === "gif" ? "gif" : "jpg"}`;
+    const { error } = await supabase.storage.from("product-images").upload(path, uploadBlob, { contentType: ext === "gif" ? "image/gif" : "image/jpeg" });
     if (error) {
       setUploadError(`アップロード失敗: ${error.message}`);
       setUploading(false);
