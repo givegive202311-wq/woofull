@@ -36,14 +36,13 @@ export default function AdminPage() {
   const [sortDir, setSortDir] = useState<"desc" | "asc">("desc");
 
   useEffect(() => {
-    if (!authLoading && (!user || !isAdmin)) {
+    if (authLoading) return;
+    if (!user || !isAdmin) {
       router.push("/login");
+      return;
     }
-  }, [user, authLoading, isAdmin, router]);
-
-  useEffect(() => {
     fetchAll();
-  }, []);
+  }, [user, authLoading, isAdmin, router]);
 
   async function fetchAll() {
     try {

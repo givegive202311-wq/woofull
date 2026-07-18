@@ -6,7 +6,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { PawIcon } from "@/components/ui/PawIcon";
 import { SectionDivider } from "@/components/ui/SectionDivider";
-import { ArrowRight, ChevronLeft, ChevronRight, Crown } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Crown, Sparkles } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { isDiscountActive, getDiscountedPrice } from "@/lib/discount";
 import type { Product } from "@/types/database";
@@ -86,9 +86,11 @@ function ProductCard({ product, rank }: { product: Product; rank?: number }) {
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const [rankedProducts, setRankedProducts] = useState<Product[]>([]);
+  const [recommendedProducts, setRecommendedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [heroIndex, setHeroIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const recommendedRef = useRef<HTMLDivElement>(null);
 
   // ヒーロー自動スライド
   useEffect(() => {
@@ -116,6 +118,25 @@ export default function Home() {
 
       const ranked = [...allProducts].sort((a, b) => (statsMap[b.id] || 0) - (statsMap[a.id] || 0));
       setRankedProducts(ranked);
+
+      // おすすめ商品：管理画面でON設定した商品を優先。
+      // まだ何もONにしていない場合は、コンセプトタグごとに1点ずつ選び
+      // 「どんなジャンルを扱っているか」が一目で伝わるようにする
+      const manuallyRecommended = allProducts.filter((p) => p.is_recommended);
+      if (manuallyRecommended.length > 0) {
+        setRecommendedProducts(manuallyRecommended);
+      } else {
+        const seenTags = new Set<string>();
+        const oneEach: Product[] = [];
+        for (const p of allProducts) {
+          if (!seenTags.has(p.concept_tag)) {
+            seenTags.add(p.concept_tag);
+            oneEach.push(p);
+          }
+        }
+        setRecommendedProducts(oneEach);
+      }
+
       setLoading(false);
     }
     fetchData();
@@ -124,6 +145,11 @@ export default function Home() {
   function scrollCarousel(dir: "left" | "right") {
     if (!carouselRef.current) return;
     carouselRef.current.scrollBy({ left: dir === "right" ? 340 : -340, behavior: "smooth" });
+  }
+
+  function scrollRecommended(dir: "left" | "right") {
+    if (!recommendedRef.current) return;
+    recommendedRef.current.scrollBy({ left: dir === "right" ? 340 : -340, behavior: "smooth" });
   }
 
   return (
@@ -224,6 +250,57 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {/* ─── おすすめ商品カルーセル（Woofullが何を扱う店か一目で伝える）─── */}
+      <section className="py-10 px-0">
+        <div className="px-6 mb-5 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Sparkles size={20} color="#F6A54B" />
+            <h2 className="text-xl font-bold font-heading" style={{ color: "#2D2D2D" }}>おすすめ商品</h2>
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => scrollRecommended("left")}
+              className="w-9 h-9 rounded-full flex items-center justify-center border transition-all hover:bg-white"
+              style={{ borderColor: "rgba(45,45,45,0.1)" }}
+            >
+              <ChevronLeft size={16} color="#2D2D2D" />
+            </button>
+            <button
+              onClick={() => scrollRecommended("right")}
+              className="w-9 h-9 rounded-full flex items-center justify-center border transition-all hover:bg-white"
+              style={{ borderColor: "rgba(45,45,45,0.1)" }}
+            >
+              <ChevronRight size={16} color="#2D2D2D" />
+            </button>
+          </div>
+        </div>
+
+        <div
+          ref={recommendedRef}
+          className="flex gap-3 overflow-x-auto pb-2 px-6"
+          style={{ scrollSnapType: "x mandatory", scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          {loading
+            ? [...Array(5)].map((_, i) => (
+                <div key={i} className="flex-shrink-0 w-40 bg-white rounded-2xl overflow-hidden animate-pulse shadow-sm" style={{ scrollSnapAlign: "start" }}>
+                  <div className="aspect-square bg-gray-100" />
+                  <div className="p-3 space-y-2">
+                    <div className="h-2 bg-gray-100 rounded w-1/2" />
+                    <div className="h-3 bg-gray-100 rounded" />
+                    <div className="h-4 bg-gray-100 rounded w-2/3" />
+                  </div>
+                </div>
+              ))
+            : recommendedProducts.map((product) => (
+                <div key={product.id} style={{ scrollSnapAlign: "start" }}>
+                  <ProductCard product={product} />
+                </div>
+              ))}
+        </div>
+      </section>
+
+      <SectionDivider />
 
       {/* ─── ランキングカルーセル ─────────────────────────────── */}
       <section className="py-10 px-0" style={{ backgroundColor: "#FFF8F1" }}>
@@ -435,6 +512,7 @@ export default function Home() {
           </div>
           <nav className="flex flex-wrap gap-6 text-sm text-white/70">
             <Link href="/concept" className="hover:text-[#F6A54B] transition-colors">コンセプト</Link>
+            <Link href="/guides" className="hover:text-[#F6A54B] transition-colors">お悩み相談室</Link>
             <a href="/legal/tokushoho" className="hover:text-[#F6A54B] transition-colors">特定商取引法</a>
             <a href="/legal/privacy" className="hover:text-[#F6A54B] transition-colors">プライバシーポリシー</a>
             <a href="/legal/returns" className="hover:text-[#F6A54B] transition-colors">返品・交換</a>

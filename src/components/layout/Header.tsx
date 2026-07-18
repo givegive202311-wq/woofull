@@ -10,6 +10,7 @@ import { Menu, X, ShoppingBag, User, Truck } from "lucide-react";
 
 const navLinks = [
   { href: "/products", label: "商品一覧" },
+  { href: "/guides", label: "お悩み相談室" },
   { href: "/about", label: "ストーリー" },
 ];
 

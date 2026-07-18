@@ -28,6 +28,7 @@ type ProductForm = {
   stock_status: string;
   stock_quantity: string;
   is_published: boolean;
+  is_recommended: boolean;
   discount_percent: number;
   discount_start: string;
   discount_end: string;
@@ -76,6 +77,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     stock_status: "in_stock",
     stock_quantity: "",
     is_published: true,
+    is_recommended: false,
     discount_percent: 0,
     discount_start: "",
     discount_end: "",
@@ -112,6 +114,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
       stock_status: data.stock_status,
       stock_quantity: data.stock_quantity != null ? String(data.stock_quantity) : "",
       is_published: data.is_published,
+      is_recommended: data.is_recommended || false,
       discount_percent: data.discount_percent || 0,
       discount_start: data.discount_start ? data.discount_start.slice(0, 16) : "",
       discount_end: data.discount_end ? data.discount_end.slice(0, 16) : "",
@@ -383,6 +386,22 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                     <option value="false">非公開（下書き）</option>
                   </select>
                 </div>
+              </div>
+
+              <div>
+                <label className={labelClass} style={labelStyle}>トップページのおすすめ表示</label>
+                <select
+                  value={form.is_recommended ? "true" : "false"}
+                  onChange={(e) => setForm({ ...form, is_recommended: e.target.value === "true" })}
+                  className={inputClass}
+                  style={inputStyle}
+                >
+                  <option value="false">通常表示のみ</option>
+                  <option value="true">おすすめカルーセルに表示する</option>
+                </select>
+                <p className="text-[10px] mt-1" style={{ color: "#2D2D2D", opacity: 0.35 }}>
+                  トップページ上部の「おすすめ商品」カルーセルに載せたい商品のみONにしてください
+                </p>
               </div>
 
               <div>

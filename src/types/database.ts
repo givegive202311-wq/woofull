@@ -24,6 +24,7 @@ type ProductRow = {
   stock_status: 'in_stock' | 'out_of_stock' | 'preorder'
   stock_quantity: number | null
   is_published: boolean
+  is_recommended: boolean
   detail_content: string
   specs: ProductSpec[] | null
   sizes: string[] | null

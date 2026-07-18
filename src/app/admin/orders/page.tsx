@@ -39,14 +39,13 @@ export default function AdminOrdersPage() {
   const [dateTo, setDateTo] = useState("");
 
   useEffect(() => {
-    if (!authLoading && (!user || !isAdmin)) {
+    if (authLoading) return;
+    if (!user || !isAdmin) {
       router.push("/login");
+      return;
     }
-  }, [user, authLoading, isAdmin, router]);
-
-  useEffect(() => {
     fetchOrders();
-  }, []);
+  }, [user, authLoading, isAdmin, router]);
 
   async function fetchOrders() {
     const { data } = await supabase

@@ -45,7 +45,7 @@ const inputStyle = { borderColor: "rgba(45,45,45,0.1)", color: "#2D2D2D" };
 const labelClass = "text-xs font-bold mb-1 block";
 const labelStyle = { color: "#2D2D2D", opacity: 0.6 };
 
-// サービスロールクライアント（クーポン書き込み用）
+// 匿名キー＋ログインユーザーのJWTでアクセス（書き込みはRLSの管理者判定に依存）
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -62,14 +62,13 @@ export default function AdminCouponsPage() {
   const [saveError, setSaveError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!authLoading && (!user || !isAdmin)) {
+    if (authLoading) return;
+    if (!user || !isAdmin) {
       router.push("/login");
+      return;
     }
-  }, [user, authLoading, isAdmin, router]);
-
-  useEffect(() => {
     fetchCoupons();
-  }, []);
+  }, [user, authLoading, isAdmin, router]);
 
   async function fetchCoupons() {
     const { data } = await supabaseAdmin

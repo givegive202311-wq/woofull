@@ -121,6 +121,7 @@ export default function CheckoutPage() {
   const [postalLoading, setPostalLoading] = useState(false);
   const [couponCode, setCouponCode] = useState<string | null>(null);
   const [couponDiscount, setCouponDiscount] = useState(0);
+  const discountedSubtotal = Math.max(0, totalPrice - couponDiscount);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -148,16 +149,13 @@ export default function CheckoutPage() {
   useEffect(() => {
     if (items.length === 0 || step !== "payment" || clientSecret) return;
 
-    const discountedSubtotal = Math.max(0, totalPrice - couponDiscount);
     fetch("/api/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        amount: discountedSubtotal + getShippingFee(discountedSubtotal),
-        items: items.map((i) => ({ id: i.id, name: i.name, quantity: i.quantity })),
+        items: items.map((i) => ({ id: i.id, quantity: i.quantity })),
         shipping,
         couponCode,
-        couponDiscount,
       }),
     })
       .then((res) => res.json())
@@ -415,7 +413,8 @@ export default function CheckoutPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.5 }}
             >
-              合計: ¥{(totalPrice + getShippingFee(totalPrice)).toLocaleString()}（税込・送料{getShippingLabel(totalPrice)}）
+              {couponDiscount > 0 && `クーポン割引: -¥${couponDiscount.toLocaleString()}　`}
+              合計: ¥{(discountedSubtotal + getShippingFee(discountedSubtotal)).toLocaleString()}（税込・送料{getShippingLabel(discountedSubtotal)}）
             </motion.p>
 
             <motion.div
