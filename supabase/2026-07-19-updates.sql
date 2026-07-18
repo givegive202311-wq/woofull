@@ -8,6 +8,8 @@ ALTER TABLE products ADD COLUMN IF NOT EXISTS is_recommended boolean NOT NULL DE
 -- 管理画面のバグや誤操作でも注文が削除できる状態だった。
 -- 参照・発送状況の更新のみ許可し、削除はSupabaseダッシュボード（サービスロール）からしかできないようにする。
 DROP POLICY IF EXISTS "admin_orders_all" ON orders;
+DROP POLICY IF EXISTS "admin_orders_select" ON orders;
+DROP POLICY IF EXISTS "admin_orders_update" ON orders;
 
 CREATE POLICY "admin_orders_select" ON orders
   FOR SELECT USING (
