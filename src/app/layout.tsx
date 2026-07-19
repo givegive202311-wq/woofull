@@ -24,6 +24,9 @@ export const metadata: Metadata = {
     description: "犬と過ごす時間をもっと豊かに。愛犬の健康寿命を伸ばすグッズを届けるECサイト。",
     images: ["/images/hero-first-meet.png"],
   },
+  verification: {
+    google: "bdA5rbiYk8lG7wGDVCs6X582-F1FUTBubKn5NwYVP7s",
+  },
 };
 
 export default function RootLayout({
