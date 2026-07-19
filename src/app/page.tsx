@@ -118,6 +118,10 @@ export default function Home() {
 
       const ranked = [...allProducts].sort((a, b) => (statsMap[b.id] || 0) - (statsMap[a.id] || 0));
       setRankedProducts(ranked);
+      // スケルトン→実データの切り替えでスクロール位置がずれることがあるため、明示的に先頭へ戻す
+      requestAnimationFrame(() => {
+        carouselRef.current?.scrollTo({ left: 0 });
+      });
 
       // おすすめ商品：管理画面でON設定した商品を優先。
       // まだ何もONにしていない場合は、コンセプトタグごとに1点ずつ選び
