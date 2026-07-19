@@ -214,7 +214,7 @@ export default function Home() {
 
           {/* 右：商品画像 */}
           <div className="flex-1 w-full order-1 md:order-2">
-            <div className="relative w-full aspect-square md:aspect-[4/3] rounded-[2rem] overflow-hidden shadow-xl">
+            <div className="relative w-full aspect-[16/10] md:aspect-[4/3] rounded-[2rem] overflow-hidden shadow-xl">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={heroIndex}
