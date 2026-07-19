@@ -152,7 +152,7 @@ export default function Home() {
   }
 
   return (
-    <main className="flex-1 pt-16 md:pt-20">
+    <main className="flex-1 pt-32">
 
       {/* ─── ヒーロー＝おすすめ商品カルーセル（キャッチコピー×商品画像の左右分割）─── */}
       <section className="relative w-full overflow-hidden" style={{ backgroundColor: "#FFF8F1", minHeight: "50vh" }}>
