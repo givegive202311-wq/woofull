@@ -55,6 +55,15 @@ export function MarkdownContent({ content }: { content: string }) {
             <div className="h-px flex-1" style={{ backgroundColor: "rgba(45,45,45,0.08)" }} />
           </div>
         ),
+        img: ({ src, alt }) => (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={typeof src === "string" ? src : ""}
+            alt={alt || ""}
+            className="w-full rounded-2xl my-6 object-cover"
+            loading="lazy"
+          />
+        ),
       }}
     >
       {content}

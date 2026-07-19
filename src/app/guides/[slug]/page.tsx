@@ -26,11 +26,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: article.title,
       description: article.metaDescription,
       publishedTime: article.publishedAt,
+      images: [{ url: article.heroImage.url }],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: article.title,
       description: article.metaDescription,
+      images: [article.heroImage.url],
     },
   };
 }
@@ -94,11 +96,15 @@ export default async function GuideArticlePage({ params }: { params: Promise<{ s
         </h1>
 
         <p
-          className="text-sm md:text-base leading-relaxed mb-8 p-4 rounded-2xl"
+          className="text-sm md:text-base leading-relaxed mb-6 p-4 rounded-2xl"
           style={{ color: "#2D2D2D", opacity: 0.85, backgroundColor: "#FFF8F1" }}
         >
           {article.directAnswer}
         </p>
+
+        <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-8">
+          <Image src={article.heroImage.url} alt={article.heroImage.alt} fill className="object-cover" priority />
+        </div>
 
         <MarkdownContent content={article.body} />
 

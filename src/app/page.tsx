@@ -16,8 +16,8 @@ const fadeInUp = {
   visible: { opacity: 1, y: 0 },
 };
 
-// ヒーロースライドの画像だけ使う（テキストは新設）
-const heroImages = [
+// おすすめ商品が読み込まれるまでの間だけ表示するフォールバック画像
+const fallbackHeroImages = [
   "/images/hero-first-meet.png",
   "/images/hero-morning-walk.png",
   "/images/hero-gaze.png",
@@ -90,15 +90,15 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [heroIndex, setHeroIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
-  const recommendedRef = useRef<HTMLDivElement>(null);
 
-  // ヒーロー自動スライド
+  // ヒーロー自動スライド：おすすめ商品が読み込めたらそちらを、まだなら仮画像を使う
+  const heroSlideCount = recommendedProducts.length > 0 ? recommendedProducts.length : fallbackHeroImages.length;
   useEffect(() => {
     const timer = setInterval(() => {
-      setHeroIndex((prev) => (prev + 1) % heroImages.length);
+      setHeroIndex((prev) => (prev + 1) % heroSlideCount);
     }, 4000);
     return () => clearInterval(timer);
-  }, []);
+  }, [heroSlideCount]);
 
   useEffect(() => {
     async function fetchData() {
@@ -147,17 +147,12 @@ export default function Home() {
     carouselRef.current.scrollBy({ left: dir === "right" ? 340 : -340, behavior: "smooth" });
   }
 
-  function scrollRecommended(dir: "left" | "right") {
-    if (!recommendedRef.current) return;
-    recommendedRef.current.scrollBy({ left: dir === "right" ? 340 : -340, behavior: "smooth" });
-  }
-
   return (
     <main className="flex-1 pt-16 md:pt-20">
 
-      {/* ─── ヒーロー（約55vh）───────────────────────────────── */}
+      {/* ─── ヒーロー＝おすすめ商品カルーセル（約56vh）──────────── */}
       <section className="relative w-full overflow-hidden bg-[#2D2D2D]" style={{ height: "56vh", minHeight: "320px" }}>
-        {/* スライド画像 */}
+        {/* スライド画像：読み込めたらおすすめ商品、まだなら仮画像 */}
         <AnimatePresence>
           <motion.div
             key={heroIndex}
@@ -168,8 +163,12 @@ export default function Home() {
             transition={{ duration: 1.2, ease: "easeInOut" }}
           >
             <Image
-              src={heroImages[heroIndex]}
-              alt=""
+              src={
+                recommendedProducts.length > 0
+                  ? recommendedProducts[heroIndex]?.image_url || fallbackHeroImages[0]
+                  : fallbackHeroImages[heroIndex % fallbackHeroImages.length]
+              }
+              alt={recommendedProducts[heroIndex]?.name || ""}
               fill
               className="object-cover"
               priority={heroIndex === 0}
@@ -181,65 +180,94 @@ export default function Home() {
         {/* グラデーションオーバーレイ */}
         <div
           className="absolute inset-0"
-          style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%)" }}
+          style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.6) 100%)" }}
         />
 
         {/* テキスト */}
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6">
           <motion.span
-            className="inline-block text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-4 text-white"
-            style={{ backgroundColor: "rgba(246,165,75,0.7)", letterSpacing: "0.2em" }}
+            key={`badge-${heroIndex}`}
+            className="inline-flex items-center gap-1.5 text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-4 text-white"
+            style={{ backgroundColor: "rgba(246,165,75,0.85)", letterSpacing: "0.15em" }}
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
           >
-            🐾 犬用グッズ専門店
+            <Sparkles size={12} />
+            おすすめ商品
           </motion.span>
 
-          <motion.h1
-            className="text-3xl md:text-5xl font-bold font-heading text-white mb-4 leading-tight"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-          >
-            愛犬の健康寿命を
-            <br />
-            <span style={{ color: "#F6A54B" }}>伸ばす</span>グッズ
-          </motion.h1>
+          {recommendedProducts.length > 0 ? (
+            <>
+              <motion.h1
+                key={`title-${heroIndex}`}
+                className="text-2xl md:text-4xl font-bold font-heading text-white mb-3 leading-tight"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                {recommendedProducts[heroIndex]?.name}
+              </motion.h1>
 
-          <motion.p
-            className="text-sm md:text-base text-white/70 mb-8 max-w-xs leading-relaxed"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-          >
-            脳トレ・運動・コミュニケーションで
-            <br />
-            毎日をもっと豊かに
-          </motion.p>
+              <motion.p
+                key={`price-${heroIndex}`}
+                className="text-lg md:text-xl font-extrabold font-heading mb-8"
+                style={{ color: "#F6A54B" }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                ¥{recommendedProducts[heroIndex] ? getDiscountedPrice(recommendedProducts[heroIndex]).toLocaleString() : ""}
+                <span className="text-xs font-normal text-white/60 ml-1">(税込)</span>
+              </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-          >
-            <Link
-              href="/products"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
-              style={{ backgroundColor: "#F6A54B", color: "white" }}
-            >
-              商品をすべて見る
-              <ArrowRight size={15} />
-            </Link>
-          </motion.div>
+              <motion.div
+                key={`cta-${heroIndex}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              >
+                <Link
+                  href={`/products/${recommendedProducts[heroIndex]?.slug}`}
+                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
+                  style={{ backgroundColor: "#F6A54B", color: "white" }}
+                >
+                  この商品を見る
+                  <ArrowRight size={15} />
+                </Link>
+              </motion.div>
+            </>
+          ) : (
+            <>
+              <motion.h1
+                className="text-3xl md:text-5xl font-bold font-heading text-white mb-4 leading-tight"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.4 }}
+              >
+                愛犬の健康寿命を
+                <br />
+                <span style={{ color: "#F6A54B" }}>伸ばす</span>グッズ
+              </motion.h1>
+              <Link
+                href="/products"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
+                style={{ backgroundColor: "#F6A54B", color: "white" }}
+              >
+                商品をすべて見る
+                <ArrowRight size={15} />
+              </Link>
+            </>
+          )}
         </div>
 
         {/* スライドインジケーター */}
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-          {heroImages.map((_, i) => (
+          {(recommendedProducts.length > 0 ? recommendedProducts : fallbackHeroImages).map((_, i) => (
             <button
               key={i}
               onClick={() => setHeroIndex(i)}
+              aria-label={`スライド${i + 1}`}
               className="transition-all duration-500 rounded-full"
               style={{
                 width: i === heroIndex ? "24px" : "6px",
@@ -248,55 +276,6 @@ export default function Home() {
               }}
             />
           ))}
-        </div>
-      </section>
-
-      {/* ─── おすすめ商品カルーセル（Woofullが何を扱う店か一目で伝える）─── */}
-      <section className="py-10 px-0">
-        <div className="px-6 mb-5 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Sparkles size={20} color="#F6A54B" />
-            <h2 className="text-xl font-bold font-heading" style={{ color: "#2D2D2D" }}>おすすめ商品</h2>
-          </div>
-          <div className="flex gap-2">
-            <button
-              onClick={() => scrollRecommended("left")}
-              className="w-9 h-9 rounded-full flex items-center justify-center border transition-all hover:bg-white"
-              style={{ borderColor: "rgba(45,45,45,0.1)" }}
-            >
-              <ChevronLeft size={16} color="#2D2D2D" />
-            </button>
-            <button
-              onClick={() => scrollRecommended("right")}
-              className="w-9 h-9 rounded-full flex items-center justify-center border transition-all hover:bg-white"
-              style={{ borderColor: "rgba(45,45,45,0.1)" }}
-            >
-              <ChevronRight size={16} color="#2D2D2D" />
-            </button>
-          </div>
-        </div>
-
-        <div
-          ref={recommendedRef}
-          className="flex gap-3 overflow-x-auto pb-2 px-6"
-          style={{ scrollSnapType: "x mandatory", scrollbarWidth: "none", msOverflowStyle: "none" }}
-        >
-          {loading
-            ? [...Array(5)].map((_, i) => (
-                <div key={i} className="flex-shrink-0 w-40 bg-white rounded-2xl overflow-hidden animate-pulse shadow-sm" style={{ scrollSnapAlign: "start" }}>
-                  <div className="aspect-square bg-gray-100" />
-                  <div className="p-3 space-y-2">
-                    <div className="h-2 bg-gray-100 rounded w-1/2" />
-                    <div className="h-3 bg-gray-100 rounded" />
-                    <div className="h-4 bg-gray-100 rounded w-2/3" />
-                  </div>
-                </div>
-              ))
-            : recommendedProducts.map((product) => (
-                <div key={product.id} style={{ scrollSnapAlign: "start" }}>
-                  <ProductCard product={product} />
-                </div>
-              ))}
         </div>
       </section>
 
