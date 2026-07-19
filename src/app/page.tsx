@@ -154,132 +154,113 @@ export default function Home() {
   return (
     <main className="flex-1 pt-16 md:pt-20">
 
-      {/* ─── ヒーロー＝おすすめ商品カルーセル（約56vh）──────────── */}
-      <section className="relative w-full overflow-hidden bg-[#2D2D2D]" style={{ height: "56vh", minHeight: "320px" }}>
-        {/* スライド画像：読み込めたらおすすめ商品、まだなら仮画像 */}
-        <AnimatePresence>
-          <motion.div
-            key={heroIndex}
-            className="absolute inset-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.2, ease: "easeInOut" }}
-          >
-            <Image
-              src={
-                recommendedProducts.length > 0
-                  ? recommendedProducts[heroIndex]?.image_url || fallbackHeroImages[0]
-                  : fallbackHeroImages[heroIndex % fallbackHeroImages.length]
-              }
-              alt={recommendedProducts[heroIndex]?.name || ""}
-              fill
-              className="object-cover"
-              priority={heroIndex === 0}
-              sizes="100vw"
-            />
-          </motion.div>
-        </AnimatePresence>
+      {/* ─── ヒーロー＝おすすめ商品カルーセル（キャッチコピー×商品画像の左右分割）─── */}
+      <section className="relative w-full overflow-hidden" style={{ backgroundColor: "#FFF8F1", minHeight: "50vh" }}>
+        <div className="max-w-6xl mx-auto px-6 md:px-10 flex flex-col md:flex-row items-center gap-8 md:gap-12" style={{ minHeight: "50vh" }}>
+          {/* 左：キャッチコピー */}
+          <div className="flex-1 py-14 md:py-0 text-center md:text-left order-2 md:order-1">
+            <span
+              className="inline-flex items-center gap-1.5 text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-5"
+              style={{ backgroundColor: "#F6A54B15", color: "#F6A54B", letterSpacing: "0.15em" }}
+            >
+              <Sparkles size={12} />
+              おすすめ商品
+            </span>
 
-        {/* グラデーションオーバーレイ */}
-        <div
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.6) 100%)" }}
-        />
-
-        {/* テキスト */}
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6">
-          <motion.span
-            key={`badge-${heroIndex}`}
-            className="inline-flex items-center gap-1.5 text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-4 text-white"
-            style={{ backgroundColor: "rgba(246,165,75,0.85)", letterSpacing: "0.15em" }}
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            <Sparkles size={12} />
-            おすすめ商品
-          </motion.span>
-
-          {recommendedProducts.length > 0 ? (
-            <>
-              <motion.h1
-                key={`title-${heroIndex}`}
-                className="text-2xl md:text-4xl font-bold font-heading text-white mb-3 leading-tight"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-              >
-                {recommendedProducts[heroIndex]?.name}
-              </motion.h1>
-
-              <motion.p
-                key={`price-${heroIndex}`}
-                className="text-lg md:text-xl font-extrabold font-heading mb-8"
-                style={{ color: "#F6A54B" }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-              >
-                ¥{recommendedProducts[heroIndex] ? getDiscountedPrice(recommendedProducts[heroIndex]).toLocaleString() : ""}
-                <span className="text-xs font-normal text-white/60 ml-1">(税込)</span>
-              </motion.p>
-
-              <motion.div
-                key={`cta-${heroIndex}`}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-              >
+            {recommendedProducts.length > 0 ? (
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={heroIndex}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <h1 className="text-2xl md:text-4xl font-bold font-heading mb-3 leading-tight" style={{ color: "#2D2D2D" }}>
+                    {recommendedProducts[heroIndex]?.name}
+                  </h1>
+                  <p className="text-lg md:text-xl font-extrabold font-heading mb-8" style={{ color: "#F6A54B" }}>
+                    ¥{recommendedProducts[heroIndex] ? getDiscountedPrice(recommendedProducts[heroIndex]).toLocaleString() : ""}
+                    <span className="text-xs font-normal ml-1" style={{ color: "#2D2D2D", opacity: 0.4 }}>(税込)</span>
+                  </p>
+                  <Link
+                    href={`/products/${recommendedProducts[heroIndex]?.slug}`}
+                    className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
+                    style={{ backgroundColor: "#F6A54B", color: "white" }}
+                  >
+                    この商品を見る
+                    <ArrowRight size={15} />
+                  </Link>
+                </motion.div>
+              </AnimatePresence>
+            ) : (
+              <>
+                <h1 className="text-3xl md:text-5xl font-bold font-heading mb-4 leading-tight" style={{ color: "#2D2D2D" }}>
+                  愛犬の健康寿命を
+                  <br />
+                  <span style={{ color: "#F6A54B" }}>伸ばす</span>グッズ
+                </h1>
                 <Link
-                  href={`/products/${recommendedProducts[heroIndex]?.slug}`}
+                  href="/products"
                   className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
                   style={{ backgroundColor: "#F6A54B", color: "white" }}
                 >
-                  この商品を見る
+                  商品をすべて見る
                   <ArrowRight size={15} />
                 </Link>
-              </motion.div>
-            </>
-          ) : (
-            <>
-              <motion.h1
-                className="text-3xl md:text-5xl font-bold font-heading text-white mb-4 leading-tight"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.4 }}
-              >
-                愛犬の健康寿命を
-                <br />
-                <span style={{ color: "#F6A54B" }}>伸ばす</span>グッズ
-              </motion.h1>
-              <Link
-                href="/products"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
-                style={{ backgroundColor: "#F6A54B", color: "white" }}
-              >
-                商品をすべて見る
-                <ArrowRight size={15} />
-              </Link>
-            </>
-          )}
-        </div>
+              </>
+            )}
+          </div>
 
-        {/* スライドインジケーター */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-          {(recommendedProducts.length > 0 ? recommendedProducts : fallbackHeroImages).map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setHeroIndex(i)}
-              aria-label={`スライド${i + 1}`}
-              className="transition-all duration-500 rounded-full"
-              style={{
-                width: i === heroIndex ? "24px" : "6px",
-                height: "6px",
-                backgroundColor: i === heroIndex ? "#F6A54B" : "rgba(255,255,255,0.4)",
-              }}
-            />
-          ))}
+          {/* 右：商品画像 */}
+          <div className="flex-1 w-full order-1 md:order-2">
+            <div className="relative w-full aspect-square md:aspect-[4/3] rounded-[2rem] overflow-hidden shadow-xl">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={heroIndex}
+                  className="absolute inset-0"
+                  initial={{ opacity: 0, scale: 1.03 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                >
+                  <Image
+                    src={
+                      recommendedProducts.length > 0
+                        ? recommendedProducts[heroIndex]?.image_url || fallbackHeroImages[0]
+                        : fallbackHeroImages[heroIndex % fallbackHeroImages.length]
+                    }
+                    alt={recommendedProducts[heroIndex]?.name || ""}
+                    fill
+                    className="object-cover"
+                    priority={heroIndex === 0}
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                </motion.div>
+              </AnimatePresence>
+
+              {/* スライド操作：矢印＋カウンター（右下） */}
+              <div className="absolute bottom-3 right-3 z-20 flex items-center gap-2 px-2.5 py-1.5 rounded-full" style={{ backgroundColor: "rgba(45,45,45,0.55)", backdropFilter: "blur(4px)" }}>
+                <button
+                  onClick={() => setHeroIndex((prev) => (prev - 1 + heroSlideCount) % heroSlideCount)}
+                  aria-label="前の商品"
+                  className="text-white/90 hover:text-white transition-colors"
+                >
+                  <ChevronLeft size={16} />
+                </button>
+                <span className="text-white text-xs font-bold tabular-nums">
+                  {heroIndex + 1} / {heroSlideCount}
+                </span>
+                <button
+                  onClick={() => setHeroIndex((prev) => (prev + 1) % heroSlideCount)}
+                  aria-label="次の商品"
+                  className="text-white/90 hover:text-white transition-colors"
+                >
+                  <ChevronRight size={16} />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
