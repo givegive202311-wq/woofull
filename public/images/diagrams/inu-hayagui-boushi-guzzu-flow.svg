@@ -1,0 +1,42 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1200" fill="#FFF8F1"/>
+  <g transform="translate(0,300)">
+
+  <text x="60" y="60" font-family="'Arial Rounded MT Bold','Hiragino Sans',sans-serif" font-weight="700" font-size="32" fill="#2D2D2D">どっちのタイプが合う？30秒でわかる選び方</text>
+
+  <!-- 中央の分岐 -->
+  <g transform="translate(600,150)">
+    <circle r="70" fill="#2D2D2D"/>
+    <text x="0" y="-6" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="24" fill="#FFFFFF">ふだん</text>
+    <text x="0" y="24" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="24" fill="#FFFFFF">何を食べる？</text>
+  </g>
+
+  <line x1="540" y1="200" x2="280" y2="330" stroke="#F6A54B" stroke-width="4"/>
+  <line x1="660" y1="200" x2="920" y2="330" stroke="#F6A54B" stroke-width="4"/>
+
+  <!-- 左：ドライフード -->
+  <g transform="translate(280,380)">
+    <rect x="-190" y="-40" width="380" height="80" rx="24" fill="#F6A54B"/>
+    <text x="0" y="8" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="26" fill="#FFFFFF">ドライフード中心</text>
+  </g>
+  <g transform="translate(280,480)">
+    <rect x="-190" y="-56" width="380" height="112" rx="20" fill="#FFFFFF" stroke="#F6A54B" stroke-width="3"/>
+    <text x="0" y="-10" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="24" fill="#2D2D2D">スローフィーダー</text>
+    <text x="0" y="24" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="20" fill="#2D2D2D" opacity="0.6">凹凸ボウル型が向く</text>
+  </g>
+
+  <!-- 右：おやつ/ウェット -->
+  <g transform="translate(920,380)">
+    <rect x="-190" y="-40" width="380" height="80" rx="24" fill="#F6A54B"/>
+    <text x="0" y="8" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="26" fill="#FFFFFF">おやつ・ウェット中心</text>
+  </g>
+  <g transform="translate(920,480)">
+    <rect x="-190" y="-56" width="380" height="112" rx="20" fill="#FFFFFF" stroke="#F6A54B" stroke-width="3"/>
+    <text x="0" y="-10" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="24" fill="#2D2D2D">リックボウル</text>
+    <text x="0" y="24" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="20" fill="#2D2D2D" opacity="0.6">舐めるタイプが向く</text>
+  </g>
+
+  <text x="600" y="620" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="20" fill="#2D2D2D" opacity="0.45">首や姿勢も気になる場合はスタンド付きを、迷ったら両方を用途で使い分けても◎</text>
+
+  </g>
+</svg>

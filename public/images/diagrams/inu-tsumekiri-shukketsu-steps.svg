@@ -1,0 +1,33 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1200" fill="#FFF8F1"/>
+  <g transform="translate(0,320)">
+
+  <text x="60" y="60" font-family="'Arial Rounded MT Bold','Hiragino Sans',sans-serif" font-weight="700" font-size="32" fill="#2D2D2D">出血したらこの3ステップ</text>
+
+  <line x1="160" y1="250" x2="1040" y2="250" stroke="#F6A54B" stroke-width="4" stroke-dasharray="2 14" stroke-linecap="round"/>
+
+  <g transform="translate(160,250)">
+    <circle r="70" fill="#F6A54B"/>
+    <text x="0" y="20" text-anchor="middle" font-family="'Arial Rounded MT Bold',sans-serif" font-weight="700" font-size="56" fill="#FFFFFF">1</text>
+  </g>
+  <text x="160" y="370" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="26" fill="#2D2D2D">清潔なガーゼで圧迫</text>
+  <text x="160" y="406" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="20" fill="#2D2D2D" opacity="0.6">数分間しっかり押さえる</text>
+
+  <g transform="translate(600,250)">
+    <circle r="70" fill="#F6A54B"/>
+    <text x="0" y="20" text-anchor="middle" font-family="'Arial Rounded MT Bold',sans-serif" font-weight="700" font-size="56" fill="#FFFFFF">2</text>
+  </g>
+  <text x="600" y="370" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="26" fill="#2D2D2D">止血剤を使う</text>
+  <text x="600" y="406" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="20" fill="#2D2D2D" opacity="0.6">無ければ小麦粉で代用も</text>
+
+  <g transform="translate(1040,250)">
+    <circle r="70" fill="#2D2D2D"/>
+    <text x="0" y="20" text-anchor="middle" font-family="'Arial Rounded MT Bold',sans-serif" font-weight="700" font-size="56" fill="#FFFFFF">3</text>
+  </g>
+  <text x="1040" y="370" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="26" fill="#2D2D2D">1時間ほど安静に</text>
+  <text x="1040" y="406" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="20" fill="#2D2D2D" opacity="0.6">運動を控えて再出血を防ぐ</text>
+
+  <text x="600" y="520" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="22" fill="#e53e3e" font-weight="700">出血が止まらない場合は動物病院へ相談を</text>
+
+  </g>
+</svg>

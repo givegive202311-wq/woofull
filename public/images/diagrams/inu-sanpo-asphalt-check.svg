@@ -1,0 +1,28 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1200" fill="#FFF8F1"/>
+  <g transform="translate(0,280)">
+
+  <text x="600" y="50" text-anchor="middle" font-family="'Arial Rounded MT Bold','Hiragino Sans',sans-serif" font-weight="700" font-size="32" fill="#2D2D2D">散歩前30秒チェック</text>
+
+  <g transform="translate(220,220)">
+    <circle r="90" fill="#F6A54B"/>
+    <text x="0" y="14" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="30" fill="#FFFFFF">手の甲を</text>
+    <text x="0" y="50" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="30" fill="#FFFFFF">5秒当てる</text>
+  </g>
+  <path d="M340 220 L470 220" stroke="#2D2D2D" stroke-width="4" marker-end="url(#arrow)" opacity="0.3"/>
+
+  <!-- 結果1：大丈夫 -->
+  <rect x="500" y="120" width="300" height="200" rx="24" fill="#FFFFFF" stroke="#1D9E75" stroke-width="3"/>
+  <text x="650" y="190" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="26" fill="#1D9E75">熱くない</text>
+  <text x="650" y="230" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="22" fill="#2D2D2D">→ そのまま散歩OK</text>
+
+  <!-- 結果2：危険 -->
+  <rect x="840" y="120" width="300" height="200" rx="24" fill="#FFFFFF" stroke="#e53e3e" stroke-width="3"/>
+  <text x="990" y="190" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="26" fill="#e53e3e">熱くて辛い</text>
+  <text x="990" y="230" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="22" fill="#2D2D2D">→ 時間帯を変える</text>
+  <text x="990" y="260" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="22" fill="#2D2D2D">→ 靴で保護する</text>
+
+  <text x="600" y="440" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="20" fill="#2D2D2D" opacity="0.45">直射日光下のアスファルトは気温+20℃以上になることも。早朝・夜の散歩が基本の対策です</text>
+
+  </g>
+</svg>

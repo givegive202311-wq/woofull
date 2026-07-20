@@ -1,0 +1,42 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1200" fill="#FFF8F1"/>
+  <g transform="translate(0,220)">
+
+  <text x="600" y="40" text-anchor="middle" font-family="'Arial Rounded MT Bold','Hiragino Sans',sans-serif" font-weight="700" font-size="32" fill="#2D2D2D">様子見していい？受診すべき？</text>
+
+  <!-- 左カラム：様子見OK -->
+  <rect x="60" y="90" width="500" height="480" rx="28" fill="#FFFFFF" stroke="#1D9E75" stroke-width="3"/>
+  <circle cx="120" cy="150" r="26" fill="#1D9E75"/>
+  <text x="120" y="159" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="26" fill="#FFFFFF">◎</text>
+  <text x="160" y="159" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="28" fill="#1D9E75">様子見して良いことが多い</text>
+
+  <g font-family="'Hiragino Sans',sans-serif" font-size="22" fill="#2D2D2D">
+    <text x="100" y="230">・下痢が1〜2回程度</text>
+    <text x="100" y="278">・血や粘液が混じっていない</text>
+    <text x="100" y="326">・食欲がいつも通り</text>
+    <text x="100" y="374">・ぐったりしていない</text>
+    <text x="100" y="422">・嘔吐を伴わない</text>
+    <text x="100" y="470">・思い当たる原因がある</text>
+    <text x="100" y="518" opacity="0.5" font-size="19">（フード変更・拾い食いなど）</text>
+  </g>
+
+  <!-- 右カラム：受診 -->
+  <rect x="640" y="90" width="500" height="480" rx="28" fill="#FFFFFF" stroke="#e53e3e" stroke-width="3"/>
+  <circle cx="700" cy="150" r="26" fill="#e53e3e"/>
+  <text x="700" y="159" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="22" fill="#FFFFFF">！</text>
+  <text x="740" y="159" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="28" fill="#e53e3e">すぐ受診した方が良いサイン</text>
+
+  <g font-family="'Hiragino Sans',sans-serif" font-size="22" fill="#2D2D2D">
+    <text x="680" y="230">・血便（赤色／黒っぽい）</text>
+    <text x="680" y="278">・下痢が半日〜1日以上続く</text>
+    <text x="680" y="326">・嘔吐を伴う</text>
+    <text x="680" y="374">・ぐったりしている</text>
+    <text x="680" y="422">・食欲が明らかに落ちている</text>
+    <text x="680" y="470">・子犬／シニア犬／持病あり</text>
+    <text x="680" y="518" opacity="0.5" font-size="19">（体力の消耗が早いため慎重に）</text>
+  </g>
+
+  <text x="600" y="640" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="20" fill="#2D2D2D" opacity="0.45">迷ったら「様子見していいか分からない」こと自体が受診の理由になります</text>
+
+  </g>
+</svg>

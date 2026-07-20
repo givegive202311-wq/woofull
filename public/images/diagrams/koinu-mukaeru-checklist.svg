@@ -1,0 +1,34 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1200" fill="#FFF8F1"/>
+  <g transform="translate(0,180)">
+
+  <text x="600" y="40" text-anchor="middle" font-family="'Arial Rounded MT Bold','Hiragino Sans',sans-serif" font-weight="700" font-size="32" fill="#2D2D2D">迎える前チェックリスト</text>
+
+  <!-- 左：必須 -->
+  <rect x="60" y="90" width="500" height="580" rx="28" fill="#F6A54B"/>
+  <text x="310" y="150" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="30" fill="#FFFFFF">必ず用意するもの</text>
+  <g font-family="'Hiragino Sans',sans-serif" font-size="24" fill="#FFFFFF">
+    <text x="100" y="220">☐ フード（迎え先と同じもの）</text>
+    <text x="100" y="270">☐ 食器（フード用・水用）</text>
+    <text x="100" y="320">☐ トイレ用品（トレー・シート）</text>
+    <text x="100" y="370">☐ ケージ・サークル</text>
+    <text x="100" y="420">☐ 首輪・リード</text>
+    <text x="100" y="470">☐ キャリーバッグ</text>
+    <text x="100" y="520">☐ かかりつけ動物病院探し</text>
+    <text x="100" y="570">☐ 家の中の危険物の片付け</text>
+  </g>
+
+  <!-- 右：後回しOK -->
+  <rect x="640" y="90" width="500" height="580" rx="28" fill="#FFFFFF" stroke="#F6A54B" stroke-width="3"/>
+  <text x="890" y="150" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="30" fill="#2D2D2D">迎えてからでいいもの</text>
+  <g font-family="'Hiragino Sans',sans-serif" font-size="24" fill="#2D2D2D">
+    <text x="680" y="220">・おもちゃ</text>
+    <text x="680" y="270">・お手入れ用品（ブラシ等）</text>
+    <text x="680" y="320">・服</text>
+    <text x="680" y="370">・デンタルケア用品</text>
+  </g>
+  <text x="680" y="450" font-family="'Hiragino Sans',sans-serif" font-size="20" fill="#2D2D2D" opacity="0.5">性格・好みを見てから選ぶ方が、</text>
+  <text x="680" y="480" font-family="'Hiragino Sans',sans-serif" font-size="20" fill="#2D2D2D" opacity="0.5">無駄な買い物になりにくいです</text>
+
+  </g>
+</svg>
