@@ -1,10 +1,12 @@
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { PawIcon } from "@/components/ui/PawIcon";
 
 // 商品詳細ページ・SEO記事など、Markdown本文を同じ見た目で表示するための共通コンポーネント
 export function MarkdownContent({ content }: { content: string }) {
   return (
     <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
       components={{
         h2: ({ children }) => (
           <h2 className="text-xl md:text-2xl font-bold font-heading mt-10 mb-4 pb-3 flex items-center gap-3" style={{ color: "#2D2D2D", borderBottom: "2px solid #F6A54B" }}>
@@ -63,6 +65,34 @@ export function MarkdownContent({ content }: { content: string }) {
             className="w-full rounded-2xl my-6 object-cover"
             loading="lazy"
           />
+        ),
+        table: ({ children }) => (
+          <div className="overflow-x-auto my-6 rounded-2xl" style={{ border: "1px solid rgba(45,45,45,0.08)" }}>
+            <table className="w-full text-sm border-collapse">
+              {children}
+            </table>
+          </div>
+        ),
+        thead: ({ children }) => (
+          <thead style={{ backgroundColor: "#FFF8F1" }}>
+            {children}
+          </thead>
+        ),
+        th: ({ children }) => (
+          <th
+            className="text-left font-bold px-4 py-3 whitespace-nowrap"
+            style={{ color: "#2D2D2D", borderBottom: "2px solid #F6A54B" }}
+          >
+            {children}
+          </th>
+        ),
+        td: ({ children }) => (
+          <td
+            className="px-4 py-3"
+            style={{ color: "#2D2D2D", opacity: 0.75, borderBottom: "1px solid rgba(45,45,45,0.06)" }}
+          >
+            {children}
+          </td>
         ),
       }}
     >
