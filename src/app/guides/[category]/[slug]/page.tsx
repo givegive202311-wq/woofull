@@ -14,6 +14,9 @@ export function generateStaticParams() {
   return articles.map((a) => ({ category: a.category, slug: a.slug }));
 }
 
+// 関連商品の価格・在庫が最短1分で反映されるようにする
+export const revalidate = 60;
+
 export async function generateMetadata({ params }: { params: Promise<{ category: string; slug: string }> }): Promise<Metadata> {
   const { category, slug } = await params;
   const article = getArticle(slug);
