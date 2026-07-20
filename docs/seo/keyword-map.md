@@ -11,11 +11,15 @@
 | 想定キーワード | 検索意図 | 商品 | ステータス | slug |
 |---|---|---|---|---|
 | 犬 なめる行動 やめない ストレス発散おもちゃ | 定義+購入ガイド | kurukuru_boll | published | inu-nameru-stress-hassan |
-| 犬 インターホン 吠える やめさせる | 手順 | なし | published | inu-interphone-hoeru-taisaku |
+| 犬 インターホン 吠える やめさせる | 手順 | なし | published（強豪あり・長期育成中）| inu-interphone-hoeru-taisaku |
+| 犬 インターホン 吠える 多頭飼い | トラブル対応 | なし | draft（両輪戦略：上記の派生・近い将来執筆） | - |
+| 犬 インターホン 吠える 賃貸 対策 | トラブル対応 | なし | draft（両輪戦略：上記の派生） | - |
 | 犬 トイレ 失敗 続く 対策 | トラブル対応 | なし | published | inu-toilet-shippai-taisaku |
 | 犬 噛み癖 子犬 いつまで 直る | 定義+トラブル対応 | なし | published | inu-kamikuse-koinu-itsumade |
 | 犬 分離不安 サイン 見分け方 | 定義 | なし | draft | - |
 | 犬 拾い食い やめさせる 散歩中 | トラブル対応 | なし | draft | - |
+
+> `inu-interphone-hoeru-taisaku`は競合調査済み（2026-07-20）。1位はCainz運営「Wanqol」、獣医師監修・H2×7/H3×12・画像7枚・文字数2,500〜3,000字。ドメインパワー差で短期決着は不可。方針は`workflow.md`①.5の両輪戦略：①この記事を継続的に厚くする（画像・H3細分化・目次を追加）②「多頭飼い」「賃貸」など競合が拾っていない具体シチュエーションへ派生記事を出す。
 
 ## ② 健康・体調管理（`/guides/kenkou`）
 
