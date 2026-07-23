@@ -1,0 +1,32 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1200" fill="#FFF8F1"/>
+  <g transform="translate(0,300)">
+
+  <text x="600" y="30" text-anchor="middle" font-family="'Arial Rounded MT Bold','Hiragino Sans',sans-serif" font-weight="700" font-size="30" fill="#2D2D2D">「なめる」行動の主な3つの理由</text>
+
+  <g transform="translate(200,180)">
+    <rect x="-140" y="-70" width="280" height="140" rx="24" fill="#F6A54B"/>
+    <text x="0" y="-8" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="26" fill="#FFFFFF">退屈</text>
+    <text x="0" y="26" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="18" fill="#FFFFFF" opacity="0.9">やることが無い</text>
+  </g>
+
+  <g transform="translate(600,180)">
+    <rect x="-140" y="-70" width="280" height="140" rx="24" fill="#F6A54B"/>
+    <text x="0" y="-8" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="26" fill="#FFFFFF">軽い不安</text>
+    <text x="0" y="26" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="18" fill="#FFFFFF" opacity="0.9">自分を落ち着かせる</text>
+  </g>
+
+  <g transform="translate(1000,180)">
+    <rect x="-140" y="-70" width="280" height="140" rx="24" fill="#2D2D2D"/>
+    <text x="0" y="-8" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="26" fill="#FFFFFF">習慣</text>
+    <text x="0" y="26" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="18" fill="#FFFFFF" opacity="0.9">単純なクセ</text>
+  </g>
+
+  <text x="600" y="330" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="24" fill="#2D2D2D">↓</text>
+  <rect x="300" y="360" width="600" height="90" rx="24" fill="#FFFFFF" stroke="#F6A54B" stroke-width="3"/>
+  <text x="600" y="415" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="24" fill="#F6A54B">安全な対象（リックボウル等）へ誘導</text>
+
+  <text x="600" y="510" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="19" fill="#2D2D2D" opacity="0.45">皮膚の荒れ・同じ場所を執拗に舐める場合は動物病院へ</text>
+
+  </g>
+</svg>

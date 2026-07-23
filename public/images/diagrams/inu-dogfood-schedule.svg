@@ -1,0 +1,33 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1200" fill="#FFF8F1"/>
+  <g transform="translate(0,280)">
+
+  <text x="60" y="30" font-family="'Arial Rounded MT Bold','Hiragino Sans',sans-serif" font-weight="700" font-size="30" fill="#2D2D2D">切り替えスケジュール（新フードの割合）</text>
+
+  <!-- 4本のバー -->
+  <g font-family="'Hiragino Sans',sans-serif" font-size="22" fill="#2D2D2D">
+    <text x="60" y="120">1〜2日目</text>
+    <rect x="220" y="95" width="880" height="36" rx="18" fill="#FFFFFF" stroke="rgba(45,45,45,0.1)" stroke-width="2"/>
+    <rect x="220" y="95" width="220" height="36" rx="18" fill="#F6A54B"/>
+    <text x="1120" y="120" text-anchor="end" font-weight="700" fill="#F6A54B">25%</text>
+
+    <text x="60" y="190">3〜4日目</text>
+    <rect x="220" y="165" width="880" height="36" rx="18" fill="#FFFFFF" stroke="rgba(45,45,45,0.1)" stroke-width="2"/>
+    <rect x="220" y="165" width="440" height="36" rx="18" fill="#F6A54B"/>
+    <text x="1120" y="190" text-anchor="end" font-weight="700" fill="#F6A54B">50%</text>
+
+    <text x="60" y="260">5〜6日目</text>
+    <rect x="220" y="235" width="880" height="36" rx="18" fill="#FFFFFF" stroke="rgba(45,45,45,0.1)" stroke-width="2"/>
+    <rect x="220" y="235" width="660" height="36" rx="18" fill="#F6A54B"/>
+    <text x="1120" y="260" text-anchor="end" font-weight="700" fill="#F6A54B">75%</text>
+
+    <text x="60" y="330">7日目〜</text>
+    <rect x="220" y="305" width="880" height="36" rx="18" fill="#FFFFFF" stroke="rgba(45,45,45,0.1)" stroke-width="2"/>
+    <rect x="220" y="305" width="880" height="36" rx="18" fill="#2D2D2D"/>
+    <text x="1060" y="330" text-anchor="end" font-weight="700" fill="#FFFFFF">100%</text>
+  </g>
+
+  <text x="600" y="420" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="20" fill="#2D2D2D" opacity="0.45">便の状態が不安定なら、同じ割合を数日長く続けてOK</text>
+
+  </g>
+</svg>

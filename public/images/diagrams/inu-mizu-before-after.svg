@@ -1,0 +1,21 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1200" fill="#FFF8F1"/>
+  <g transform="translate(0,320)">
+
+  <text x="600" y="30" text-anchor="middle" font-family="'Arial Rounded MT Bold','Hiragino Sans',sans-serif" font-weight="700" font-size="30" fill="#2D2D2D">フローティングプレート構造の仕組み</text>
+
+  <rect x="60" y="90" width="500" height="360" rx="28" fill="#FFFFFF" stroke="rgba(45,45,45,0.15)" stroke-width="3"/>
+  <text x="310" y="150" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="26" fill="#2D2D2D" opacity="0.5">ふつうの器</text>
+  <circle cx="310" cy="260" r="90" fill="#BFE3F0"/>
+  <text x="310" y="380" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="20" fill="#2D2D2D" opacity="0.55">水面がむき出し→飛び散りやすい</text>
+
+  <rect x="640" y="90" width="500" height="360" rx="28" fill="#FFFFFF" stroke="#F6A54B" stroke-width="3"/>
+  <text x="890" y="150" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="26" fill="#F6A54B">こぼれにくい器</text>
+  <circle cx="890" cy="260" r="90" fill="#BFE3F0"/>
+  <circle cx="890" cy="260" r="60" fill="#FFF8F1" stroke="#F6A54B" stroke-width="4"/>
+  <text x="890" y="380" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="20" fill="#2D2D2D" opacity="0.7">プレートが水面を覆う→飛び散り軽減</text>
+
+  <text x="600" y="500" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="20" fill="#2D2D2D" opacity="0.45">一度に触れる水の量が減るため、飲むペースも自然とゆっくりに</text>
+
+  </g>
+</svg>
