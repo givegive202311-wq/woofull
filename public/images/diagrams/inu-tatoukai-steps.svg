@@ -1,0 +1,24 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1200" fill="#FFF8F1"/>
+  <g transform="translate(0,340)">
+
+  <text x="60" y="40" font-family="'Arial Rounded MT Bold','Hiragino Sans',sans-serif" font-weight="700" font-size="30" fill="#2D2D2D">初対面をスムーズに進める4ステップ</text>
+
+  <line x1="160" y1="200" x2="1040" y2="200" stroke="#F6A54B" stroke-width="4" stroke-dasharray="2 14" stroke-linecap="round"/>
+
+  <g transform="translate(160,200)"><circle r="60" fill="#F6A54B"/><text x="0" y="16" text-anchor="middle" font-family="'Arial Rounded MT Bold',sans-serif" font-weight="700" font-size="46" fill="#FFFFFF">1</text></g>
+  <text x="160" y="300" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="22" fill="#2D2D2D">中立な場所で顔合わせ</text>
+
+  <g transform="translate(453,200)"><circle r="60" fill="#F6A54B"/><text x="0" y="16" text-anchor="middle" font-family="'Arial Rounded MT Bold',sans-serif" font-weight="700" font-size="46" fill="#FFFFFF">2</text></g>
+  <text x="453" y="300" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="22" fill="#2D2D2D">リードをつけたまま観察</text>
+
+  <g transform="translate(746,200)"><circle r="60" fill="#F6A54B"/><text x="0" y="16" text-anchor="middle" font-family="'Arial Rounded MT Bold',sans-serif" font-weight="700" font-size="46" fill="#FFFFFF">3</text></g>
+  <text x="746" y="300" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="22" fill="#2D2D2D">少しずつ距離を縮める</text>
+
+  <g transform="translate(1040,200)"><circle r="60" fill="#2D2D2D"/><text x="0" y="16" text-anchor="middle" font-family="'Arial Rounded MT Bold',sans-serif" font-weight="700" font-size="46" fill="#FFFFFF">4</text></g>
+  <text x="1040" y="300" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="22" fill="#2D2D2D">別スペースから徐々に同居</text>
+
+  <text x="600" y="400" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="20" fill="#2D2D2D" opacity="0.45">激しい威嚇や怯えが続く場合は、無理に進めず距離を置きましょう</text>
+
+  </g>
+</svg>

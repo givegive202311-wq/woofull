@@ -1,0 +1,32 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1200" fill="#FFF8F1"/>
+  <g transform="translate(0,240)">
+
+  <text x="600" y="40" text-anchor="middle" font-family="'Arial Rounded MT Bold','Hiragino Sans',sans-serif" font-weight="700" font-size="32" fill="#2D2D2D">夜泣き対応 Do / Don't</text>
+
+  <rect x="60" y="90" width="500" height="400" rx="28" fill="#FFFFFF" stroke="#1D9E75" stroke-width="3"/>
+  <circle cx="120" cy="150" r="26" fill="#1D9E75"/>
+  <text x="120" y="159" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="24" fill="#FFFFFF">○</text>
+  <text x="160" y="159" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="26" fill="#1D9E75">やって良いこと</text>
+
+  <g font-family="'Hiragino Sans',sans-serif" font-size="22" fill="#2D2D2D">
+    <text x="100" y="230">・まず安全と体調を確認</text>
+    <text x="100" y="278">・気配を感じる場所にケージ設置</text>
+    <text x="100" y="326">・迎え先の匂いのタオルを入れる</text>
+    <text x="100" y="374">・日中しっかり遊ばせておく</text>
+  </g>
+
+  <rect x="640" y="90" width="500" height="400" rx="28" fill="#FFFFFF" stroke="#e53e3e" stroke-width="3"/>
+  <circle cx="700" cy="150" r="26" fill="#e53e3e"/>
+  <text x="700" y="159" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="22" fill="#FFFFFF">×</text>
+  <text x="740" y="159" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="26" fill="#e53e3e">避けたいこと</text>
+
+  <g font-family="'Hiragino Sans',sans-serif" font-size="22" fill="#2D2D2D">
+    <text x="680" y="230">・鳴くたびに抱き上げる</text>
+    <text x="680" y="278">・叱る・大きな音で驚かせる</text>
+    <text x="680" y="326">・無理に添い寝させ続ける</text>
+    <text x="680" y="374" opacity="0.5" font-size="19">（学習が長引く原因になりがち）</text>
+  </g>
+
+  </g>
+</svg>

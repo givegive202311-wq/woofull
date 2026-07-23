@@ -1,0 +1,19 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1200" fill="#FFF8F1"/>
+  <g transform="translate(0,340)">
+
+  <text x="600" y="30" text-anchor="middle" font-family="'Arial Rounded MT Bold','Hiragino Sans',sans-serif" font-weight="700" font-size="30" fill="#2D2D2D">選ぶときの4つの確認ポイント</text>
+
+  <g font-family="'Hiragino Sans',sans-serif" font-size="24" fill="#2D2D2D">
+    <circle cx="90" cy="120" r="8" fill="#F6A54B"/>
+    <text x="120" y="128">取り付け方式（リード通し／クリップ式）</text>
+    <circle cx="90" cy="180" r="8" fill="#F6A54B"/>
+    <text x="120" y="188">密閉ポケットの有無（ニオイ漏れ対策）</text>
+    <circle cx="90" cy="240" r="8" fill="#F6A54B"/>
+    <text x="120" y="248">片手で取り出せるワンタッチ構造か</text>
+    <circle cx="90" cy="300" r="8" fill="#F6A54B"/>
+    <text x="120" y="308">頭数分あると混乱しにくい（多頭飼い）</text>
+  </g>
+
+  </g>
+</svg>

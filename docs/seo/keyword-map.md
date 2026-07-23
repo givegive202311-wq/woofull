@@ -104,5 +104,14 @@
 | inu-mizu-koboreru-taisaku | 明確な1強なし（EC・個人ブログが中心） | 権威性の強い競合が見当たらない、狙い目のキーワード | 仕組みの図解を追加してさらに厚みを持たせた |
 | inu-dogfood-kirikae-hoho | いぬのきもちWEB MAGAZINE（獣医師監修） | 1,800〜2,000字と短め、対話形式のFAQあり | スケジュールの視覚化（進捗バー）を追加、表と合わせて分かりやすさで差別化 |
 | inu-nukege-souji-guzzu | PETOKOTO編集部 | 8,000〜10,000字と非常に強力（範囲が全般的な掃除グッズ） | うちは「コロコロ以外の選択肢」に絞った内容。2ステップの図解を追加 |
+| inu-unchibukuro-holder-erabikata | マイベスト | 3,500〜4,000字・比較表あり、FAQなし | 確認ポイントの図解を追加 |
+| inu-dakko-tsukareru-rucksack | pettena.jp | 8,000〜9,000字・FAQあり（5問） | 抱っこ/リュックの負担比較図解を追加 |
+| inu-retrieve-hitoriasobi-toy | 明確な1強なし | ニッチなキーワードで狙い目 | 遊びのサイクル図解を追加 |
+| inu-rusuban-undoubusoku-kaishou-guzzu | マイベスト | 15,000〜17,000字と非常に強力（範囲は留守番おもちゃ全般） | サインの図解を追加。範囲を絞った独自性で勝負 |
+| koinu-shonichi-yonaki-taisho | 明確な1強なし | ニッチなキーワードで狙い目 | Do/Dont図解を追加 |
+| inu-tatoukai-aisho-mikiwame | Cainz「Wanqol」（獣医師監修） | 3,500〜4,000字、FAQなし | 4ステップ図解を追加 |
+| inu-akachan-doukyo-junbi | Cainz「Wanqol」（獣医師監修） | 6,500〜7,000字と強力、FAQなし | 準備タイムライン図解を追加 |
+
+**23記事すべて競合調査・図解追加が完了（2026-07-24）。** 次にやるなら、Search Consoleの実データを見てから、Tier2への昇格やTier1候補の追加を検討する。
 
 新しい候補を追加するときは、`strategy.md`のTier1化パターン（状況・比較対象・対象・形式・数値を足して具体化）に沿ってから、この表にdraftとして追加する。draftのまま執筆しない。

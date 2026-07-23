@@ -1,0 +1,22 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1200" fill="#FFF8F1"/>
+  <g transform="translate(0,300)">
+
+  <text x="600" y="30" text-anchor="middle" font-family="'Arial Rounded MT Bold','Hiragino Sans',sans-serif" font-weight="700" font-size="30" fill="#2D2D2D">抱っこ と リュック、負担の違い</text>
+
+  <rect x="60" y="90" width="500" height="340" rx="28" fill="#FFFFFF" stroke="rgba(45,45,45,0.15)" stroke-width="3"/>
+  <text x="310" y="150" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="26" fill="#2D2D2D" opacity="0.5">抱っこ</text>
+  <text x="310" y="220" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="21" fill="#2D2D2D" opacity="0.6">重さが片腕に集中</text>
+  <text x="310" y="260" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="21" fill="#2D2D2D" opacity="0.6">荷物を持つ手が無くなる</text>
+  <text x="310" y="300" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="21" fill="#2D2D2D" opacity="0.6">長時間は疲労が大きい</text>
+
+  <rect x="640" y="90" width="500" height="340" rx="28" fill="#FFFFFF" stroke="#F6A54B" stroke-width="3"/>
+  <text x="890" y="150" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="26" fill="#F6A54B">リュック</text>
+  <text x="890" y="220" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="21" fill="#2D2D2D">重さを両肩・背中で分散</text>
+  <text x="890" y="260" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="21" fill="#2D2D2D">両手が自由になる</text>
+  <text x="890" y="300" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="21" fill="#2D2D2D">通院・電車移動もラク</text>
+
+  <text x="600" y="490" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="20" fill="#2D2D2D" opacity="0.45">サイズは体重の実測から選ぶのが失敗しないコツです</text>
+
+  </g>
+</svg>
