@@ -1,0 +1,36 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1200" fill="#FFF8F1"/>
+  <g transform="translate(0,320)">
+
+  <text x="60" y="50" font-family="'Arial Rounded MT Bold','Hiragino Sans',sans-serif" font-weight="700" font-size="30" fill="#2D2D2D">噛み癖の時期別タイムライン</text>
+
+  <line x1="160" y1="220" x2="1040" y2="220" stroke="#F6A54B" stroke-width="4" stroke-dasharray="2 14" stroke-linecap="round"/>
+
+  <g transform="translate(160,220)">
+    <circle r="64" fill="#F6A54B"/>
+    <text x="0" y="8" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="22" fill="#FFFFFF">2〜4</text>
+    <text x="0" y="30" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="16" fill="#FFFFFF">ヶ月</text>
+  </g>
+  <text x="160" y="330" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="24" fill="#2D2D2D">探索行動</text>
+  <text x="160" y="364" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="18" fill="#2D2D2D" opacity="0.6">口で物を確認する時期</text>
+
+  <g transform="translate(600,220)">
+    <circle r="64" fill="#F6A54B"/>
+    <text x="0" y="8" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="22" fill="#FFFFFF">4〜7</text>
+    <text x="0" y="30" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="16" fill="#FFFFFF">ヶ月</text>
+  </g>
+  <text x="600" y="330" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="24" fill="#2D2D2D">歯の生え変わり</text>
+  <text x="600" y="364" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="18" fill="#2D2D2D" opacity="0.6">甘噛みが最も激しい時期</text>
+
+  <g transform="translate(1040,220)">
+    <circle r="64" fill="#2D2D2D"/>
+    <text x="0" y="8" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="22" fill="#FFFFFF">7ヶ月</text>
+    <text x="0" y="30" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="16" fill="#FFFFFF">〜1歳</text>
+  </g>
+  <text x="1040" y="330" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="24" fill="#2D2D2D">遊びの延長</text>
+  <text x="1040" y="364" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="18" fill="#2D2D2D" opacity="0.6">しつけの積み重ねが鍵</text>
+
+  <text x="600" y="460" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="20" fill="#2D2D2D" opacity="0.45">個体差はありますが、多くの場合1歳前後で落ち着いていきます</text>
+
+  </g>
+</svg>

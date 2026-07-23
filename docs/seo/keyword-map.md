@@ -94,5 +94,10 @@
 | inu-tsumekiri-shukketsu-taisho | 動物病院ブログ（院長名あり） | **画像0枚、2021年から更新なし**。最も勝ちやすい相手 | 3ステップの図解を追加し視覚面で明確に上回る |
 | inu-sanpo-asphalt-yakedo-taisaku | リッチェル公式ブログ | 自社カート商品への誘導が強く、読者の検索意図（靴・対策）とややズレ | 散歩前チェックの図解を追加し、検索意図に素直に答える構成を維持 |
 | koinu-mukaeru-mae-junbi-list | みんなのブリーダー | H3が19個と網羅性は強いが、FAQ・図解なし | 必須/後回しの2カラムチェックリスト図解を追加。FAQで差別化 |
+| inu-kamikuse-koinu-itsumade | pettena.jp | 獣医監修なし（ペットカート専門店の編集部）。FAQあり | 時期別タイムライン図解を追加 |
+| inu-hamigaki-iyagaru-dental-toy | ライオンペット公式（獣医師監修） | 大手ブランドだが2,000〜2,500字と短め、FAQ・表なし | 3段階の慣らし方図解を追加 |
+| inu-necchusho-taisaku-hiyashi-oyatsu | IDOG&ICAT | 資格保有ライターが執筆、25〜30内部リンク、FAQなし | 留守番前チェックリスト図解を追加 |
+| inu-namidayake-fukikata | アニコム損保（獣医師監修） | 4,500〜5,000字と強力、画像7点、ただしFAQ・表なし | ケア/受診の判断チェックリスト図解を追加 |
+| inu-toilet-shippai-taisaku | au損保（認定資格ライター監修） | 6,500字・19見出しと非常に強力、FAQ・表なし | 4原因の図解を追加。網羅性では及ばないため図解での分かりやすさ勝負 |
 
 新しい候補を追加するときは、`strategy.md`のTier1化パターン（状況・比較対象・対象・形式・数値を足して具体化）に沿ってから、この表にdraftとして追加する。draftのまま執筆しない。

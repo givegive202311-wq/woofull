@@ -1,0 +1,33 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1200" fill="#FFF8F1"/>
+  <g transform="translate(0,320)">
+
+  <text x="60" y="50" font-family="'Arial Rounded MT Bold','Hiragino Sans',sans-serif" font-weight="700" font-size="30" fill="#2D2D2D">歯磨きに慣らす3段階</text>
+
+  <line x1="160" y1="220" x2="1040" y2="220" stroke="#F6A54B" stroke-width="4" stroke-dasharray="2 14" stroke-linecap="round"/>
+
+  <g transform="translate(160,220)">
+    <circle r="70" fill="#F6A54B"/>
+    <text x="0" y="20" text-anchor="middle" font-family="'Arial Rounded MT Bold',sans-serif" font-weight="700" font-size="56" fill="#FFFFFF">1</text>
+  </g>
+  <text x="160" y="340" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="25" fill="#2D2D2D">口の周りに触る</text>
+  <text x="160" y="374" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="19" fill="#2D2D2D" opacity="0.6">触られること自体に慣らす</text>
+
+  <g transform="translate(600,220)">
+    <circle r="70" fill="#F6A54B"/>
+    <text x="0" y="20" text-anchor="middle" font-family="'Arial Rounded MT Bold',sans-serif" font-weight="700" font-size="56" fill="#FFFFFF">2</text>
+  </g>
+  <text x="600" y="340" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="25" fill="#2D2D2D">口の中に触る</text>
+  <text x="600" y="374" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="19" fill="#2D2D2D" opacity="0.6">指やガーゼで歯や歯茎を軽く</text>
+
+  <g transform="translate(1040,220)">
+    <circle r="70" fill="#2D2D2D"/>
+    <text x="0" y="20" text-anchor="middle" font-family="'Arial Rounded MT Bold',sans-serif" font-weight="700" font-size="56" fill="#FFFFFF">3</text>
+  </g>
+  <text x="1040" y="340" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-weight="700" font-size="25" fill="#2D2D2D">歯ブラシに移行</text>
+  <text x="1040" y="374" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="19" fill="#2D2D2D" opacity="0.6">短時間から少しずつ</text>
+
+  <text x="600" y="470" text-anchor="middle" font-family="'Hiragino Sans',sans-serif" font-size="20" fill="#2D2D2D" opacity="0.45">1段階につき数日〜数週間。焦らず犬のペースに合わせて進めます</text>
+
+  </g>
+</svg>
